@@ -1,0 +1,219 @@
+<html>
+	<head>
+		<title>Poggle</title>
+		<style>
+			#canvas {
+				border: 1px solid black;
+			}
+		</style>
+		<script>
+			var gravity = 1;
+			class Pog {
+				constructor(x,y,colour) {
+					this.x = x;
+					this.y = y;
+					this.colour = colour;
+					this.size = 10;
+				}
+				
+			}
+			class Ball {
+				constructor() {
+					this.size = 5;
+								
+					this.x = 250;
+					this.xVel = 0;
+					this.xAcc = 0;
+					
+					this.y = 20;
+					this.yVel = 0;
+					this.yAcc = gravity; 
+				}
+			}
+			
+			class Point {
+				constructor(x, y) {
+					this.x = x;
+					this.y = y;
+				}
+			}
+			
+			var fps = 60;
+			
+			
+			var pogs = [];
+			var ball = new Ball();
+			var canvas;
+			var context;
+			var score = 0;
+			var started = false;
+			
+			function load() {
+				canvas = document.getElementById("canvas");
+				context = canvas.getContext("2d");
+							
+				count = 0;
+				
+				for (var j = 0; j < 4; j++) {
+					for (var i = 0; i < 10; i++) {
+						pogs[count] = new Pog(20 + i*50, 100 + j*100,"blue");
+						count++;
+					}
+					for (var i = 0; i < 9; i++) {
+						pogs[count] = new Pog(45 + i*50, 150 + j*100,"orange");
+						count++;
+					}
+				}
+				drawBall();
+				drawPogs();
+				drawOverlay();
+			}
+			
+			function start() {
+				if (!started) {
+					started = true;
+					
+					mouseX = event.clientX;
+					mouseY = event.clientY;
+					
+					var angle = Math.atan((mouseX - ball.x)/(mouseY - ball.y));
+					var r = 10;
+					
+					ball.xVel = Math.sin(angle) * r;
+					ball.yVel = Math.cos(angle) * r;
+					
+					setInterval(function(){clock();}, 1000/fps);
+				}
+			}
+			
+			function clock() {
+				updateBall();
+				context.clearRect(0, 0, canvas.width, canvas.height);
+				drawBall();
+				drawPogs();
+				drawOverlay();
+			}
+			
+			function drawPogs() {
+				for (var i = 0; i < pogs.length; i++) {
+					context.beginPath();
+					context.arc(pogs[i].x, pogs[i].y, pogs[i].size, 0, 2*Math.PI);
+					context.fillStyle = pogs[i].colour;
+					context.fill();
+				}
+			}
+			
+			//y = g / 2 * t**2
+			
+			function drawBall() {
+				context.beginPath();
+				context.arc(ball.x, ball.y, ball.size, 0, 2*Math.PI);
+				context.fillStyle = "black";
+				context.fill();
+			}
+			
+			function drawOverlay() {
+				context.font = "30px Arial";
+				context.fillStyle = "black";
+				context.fillText(score,10,30);
+				
+			}
+			
+			function updateBall() {
+			
+				ball.yVel += ball.yAcc;
+				ball.y += ball.yVel;
+				
+				ball.xVel += ball.xAcc;
+				ball.x += ball.xVel;
+			
+				var ground = canvas.height - ball.size;
+				var speedLostToCollision = 0.8;
+			
+				if (ball.y >= ground) {
+					ball.y = ground;
+					ball.yVel = -speedLostToCollision * ball.yVel;
+				}
+				if (ball.y <= 0 + ball.size) {
+					ball.y = 0 + ball.size;
+					ball.yVel = -speedLostToCollision * ball.yVel;
+				}
+				
+				if (ball.x <= 0 + ball.size) {
+					ball.x = 0 + ball.size;
+					ball.xVel = -speedLostToCollision * ball.xVel;
+				}
+			
+				if (ball.x >= canvas.width - ball.size) {
+					ball.x = canvas.width - ball.size;
+					ball.xVel = -speedLostToCollision * ball.xVel;
+				}
+				
+				for (var i = 0; i < pogs.length; i++) {
+					var d = Math.sqrt((ball.x-pogs[i].x)**2 + (ball.y-pogs[i].y)**2);
+					if (d < ball.size + pogs[i].size) {
+						console.log("1");
+						var pog = pogs[i];
+						
+					
+						var t = Math.atan((pog.y - ball.y)/(pog.x - ball.x));
+						
+						var angleOfWall = Math.atan(- Math.cos(t) / Math.sin(t));
+						var angleOfBall = Math.atan(ball.yVel / ball.xVel);
+						var magnitude = Math.sqrt(ball.xVel**2 + ball.yVel**2)
+						
+						var newAngle = 2 * angleOfWall - angleOfBall;
+						
+						var intersectionPoint;
+						
+						if (pog.x <= ball.x) {
+							intersectionPoint = new Point(pog.x + (pog.size + ball.size+1) * Math.cos(t),
+														  pog.y + (pog.size + ball.size+1) * Math.sin(t));
+						} else if (ball.x < pog.x) {
+							intersectionPoint = new Point(pog.x - (pog.size + ball.size+1) * Math.cos(t),
+														  pog.y - (pog.size + ball.size+1) * Math.sin(t));
+						}
+						
+						ball.x = intersectionPoint.x;
+						ball.y = intersectionPoint.y;
+											
+						ball.xVel = Math.cos(newAngle) * magnitude * speedLostToCollision;
+						ball.yVel = Math.sin(newAngle) * magnitude * speedLostToCollision;
+						
+						if (pogs[i].colour == "blue") {
+							score += 10;
+						} else {
+							score += 100;
+						}
+						
+						pogs.splice(i,1);
+						console.log("2");
+						
+						break;
+					}
+				}
+			}
+		
+			function stub() {
+				if (!started) {
+					mouseX = event.clientX;
+					mouseY = event.clientY;
+					
+					context.clearRect(0, 0, canvas.width, canvas.height);
+					
+					drawBall();
+					drawPogs();
+					drawOverlay();
+					
+					context.beginPath();
+					context.arc(mouseX, mouseY, ball.size, 0, 2*Math.PI);
+					context.fillStyle = "red";
+					context.fill();
+				}
+			}
+		</script>
+	</head>
+	<body onload="load()" onmousemove="stub()" onmousedown="start()">
+		<canvas id="canvas" width="500px" height="500px"></canvas>
+	</body>
+</html>

@@ -1,0 +1,136 @@
+<html>
+<head>
+<title>Minesweeper</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+.grid {
+display: grid;
+grid-template-columns: repeat(8, 1fr);
+grid-template-rows: repeat(8, 1fr);
+grid-gap: 1px;
+margin: 20px auto;
+width: 320px;
+height: 320px;
+}
+
+.cell {
+background-color: #ccc;
+border: 1px solid #999;
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 24px;
+color: #555;
+cursor: pointer;
+}
+
+.hidden {
+background-color: #ccc;
+}
+
+.revealed {
+background-color: #fff;
+}
+
+.flagged {
+background-color: #f0f0f0;
+}
+
+.mine {
+color: #f00;
+}
+</style>
+
+</head>
+<body>
+  <h1>Minesweeper</h1>
+  <div class="grid">
+    <!-- cells will be generated here -->
+  </div>
+  <script>
+    // generate a grid of 8x8 cells
+    const grid = document.querySelector(".grid");
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 8; j++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell", "hidden");
+        cell.setAttribute("data-row", i);
+        cell.setAttribute("data-col", j);
+        grid.appendChild(cell);
+      }
+    }
+	// randomly place 10 mines on the grid
+const mines = [];
+while (mines.length < 10) {
+  const row = Math.floor(Math.random() * 8);
+  const col = Math.floor(Math.random() * 8);
+  if (!mines.some(([r, c]) => r === row && c === col)) {
+    mines.push([row, col]);
+  }
+}
+
+// add a click event listener to each cell
+grid.addEventListener("click", (event) => {
+  const cell = event.target;
+  const row = +cell.getAttribute("data-row");
+  const col = +cell.getAttribute("data-col");
+
+  // check if the cell is a mine
+  if (mines.some(([r, c]) => r === row && c === col)) {
+    // game over, reveal all mines
+    grid.querySelectorAll(".cell").forEach((cell) => {
+      const row = +cell.getAttribute("data-row");
+      const col = +cell.getAttribute("data-col");
+      if (mines.some(([r, c]) => r === row && c === col)) {
+        cell.classList.remove("hidden");
+        cell.classList.add("revealed", "mine");
+}
+});
+alert("Game Over!");
+return;
+}
+  // reveal the cell and show the number of surrounding mines
+  cell.classList.remove("hidden");
+  cell.classList.add("revealed");
+  let count = 0;
+  for (const [r, c] of mines) {
+    if (Math.abs(r - row) <= 1 && Math.abs(c - col) <= 1) {
+      count++;
+    }
+  }
+  cell.textContent = count > 0 ? count : "";
+
+  // if the cell has no surrounding mines, reveal all adjacent empty cells
+  if (count === 0) {
+    for (let r = row - 1; r <= row + 1; r++) {
+      for (let c = col - 1; c <= col + 1; c++) {
+        if (r >= 0 && r < 8 && c >= 0 && c < 8) {
+          const adjacentCell = grid.querySelector(`[data-row="${r}"][data-col="${c}"]`);
+          if (adjacentCell.classList.contains("hidden")) {
+            adjacentCell.click();
+          }
+        }
+      }
+    }
+  }
+});
+
+// add a right click event listener to each cell to flag it as a potential mine
+grid.addEventListener("contextmenu", (event) => {
+  event.preventDefault();
+  const cell = event.target;
+  if (cell.classList.contains("hidden")) {
+    cell.classList.remove("hidden");
+    cell.classList.add("flagged");
+  } else if (cell.classList.contains("flagged")) {
+    cell.classList.remove("flagged");
+    cell.classList.add("hidden");
+  }
+});
+ </script>
+</body>
+</html>
+
+

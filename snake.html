@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+
+<head>
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="game" width="400" height="400"></canvas>
+  <script>
+  	console.log("yup");
+
+    // Get the canvas element and its context
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+
+    // Set some constants for the game
+    const blockSize = 10;
+    const width = canvas.width;
+    const height = canvas.height;
+    const initLength = 5;
+
+    // Create the snake array
+    let snake = [];
+    for (let i = initLength - 1; i >= 0; i--) {
+      snake.push({ x: i, y: 0 });
+    }
+
+    // Create the food object
+    let food = {
+      x: Math.floor(Math.random() * (width / blockSize)),
+      y: Math.floor(Math.random() * (height / blockSize)),
+    };
+
+    // Set some initial values for the game state
+    let direction = 'right';
+    let gameOver = false;
+    let score = 0;
+
+    // Function to draw a square on the canvas
+    function drawBlock(ctx, position) {
+      const x = position.x * blockSize;
+      const y = position.y * blockSize;
+      ctx.fillRect(x, y, blockSize, blockSize);
+    }
+
+    // Function to clear the canvas
+    function clearCanvas(ctx) {
+      ctx.clearRect(0, 0, width, height);
+    }
+
+    // Function to draw the snake on the canvas
+    function drawSnake(ctx) {
+      ctx.fillStyle = 'green';
+      snake.forEach(drawBlock.bind(null, ctx));
+    }
+
+    // Function to draw the food on the canvas
+    function drawFood(ctx) {
+      ctx.fillStyle = 'red';
+      drawBlock(ctx, food);
+    }
+
+		// Function to advance the snake by one step
+	function advanceSnake() {
+	  // Get the current position of the snake's head
+	  const head = snake[0];
+
+	  // Use the direction property to determine the new position of the head
+	  let newHead;
+	  switch (direction) {
+		case 'right':
+		  newHead = { x: head.x + 1, y: head.y };
+		  break;
+		case 'left':
+		  newHead = { x: head.x - 1, y: head.y };
+		  break;
+		case 'down':
+		  newHead = { x: head.x, y: head.y + 1 };
+		  break;
+		case 'up':
+		  newHead = { x: head.x, y: head.y - 1 };
+		  break;
+	  }
+
+	  // Check if the new position of the head is outside the boundaries of the canvas
+	  if (
+		newHead.x < 0 ||
+		newHead.x >= width / blockSize ||
+		newHead.y < 0 ||
+		newHead.y >= height / blockSize
+	  ) {
+		gameOver = true;
+		return;
+	  }
+
+	  // Check if the new position of the head is on top of the snake's body
+	  for (let i = 1; i < snake.length; i++) {
+		if (newHead.x === snake[i].x && newHead.y === snake[i].y) {
+		  gameOver = true;
+		  return;
+		}
+	  }
+
+	  // Check if the new position of the head is on top of the food
+	  if (newHead.x === food.x && newHead.y === food.y) {
+		// Increase the score and create new food
+		score++;
+		food = {
+		  x: Math.floor(Math.random() * (width / blockSize)),
+		  y: Math.floor(Math.random() * (height / blockSize)),
+		};
+	  } else {
+		// Remove the tail of the snake if the new position of the head is not on top of the food
+		snake.pop();
+	  }
+
+	  // Add the new position of the head to the beginning of the snake
+	  snake.unshift(newHead);
+	}
+
+	// Function to draw the game state on the canvas
+	function draw() {
+	  clearCanvas(ctx);
+	  drawFood(ctx);
+	  drawSnake(ctx);
+	}
+
+	// Function to update the game state
+	function update() {
+	  if (!gameOver) {
+		advanceSnake();
+		draw();
+	  }
+	}
+
+	// Set the initial game state
+	draw();
+
+	// Set an interval to update the game state every 100 milliseconds
+	const game = setInterval(update, 100);
+
+	// Listen for keyboard events to change the direction of the snake
+	document.addEventListener('keydown', (e) => {
+	  switch (e.key) {
+		case 'ArrowUp':
+		  if (direction !== 'down') direction = 'up';
+		  break;
+		case 'ArrowDown':
+		  if (direction !== 'up') direction = 'down';
+		  break;
+		case 'ArrowLeft':
+		  if (direction !== 'right') direction = 'left';
+		  break;
+		case 'ArrowRight':
+		  if (direction !== 'left') direction = 'right';
+		  break;
+	  }
+	});
+
+	// Function to end the game
+	function endGame() {
+	  clearInterval(game);
+	  alert(`Game Over! Your score is ${score}`);
+	}
+
+	// Listen for the "gameover" event to end the game
+	document.addEventListener('gameover', endGame);
+	</script>
+</body>
+

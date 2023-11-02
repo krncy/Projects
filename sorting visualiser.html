@@ -1,0 +1,154 @@
+<html>
+	<head>
+		<title>Sorting Visualiser</title>
+		<style>
+			#canvas {
+				border: 1px solid black;
+			}
+		</style>
+		<script>
+			function mergeArray(arr1, arr2) {
+				
+				var output = [];
+				var i1 = 0;
+				var i2 = 0;
+				
+				while (i1 < arr1.length && i2 < arr2.length) {
+					if (arr1[i1] <= arr2[i2]) {
+						output.push(arr1[i1]);
+						i1++;
+					} else {
+						output.push(arr2[i2]);
+						i2++;
+					}
+				}
+				
+				while (i1 < arr1.length) {
+					output.push(arr1[i1]);
+					i1++;
+				}
+				
+				while (i2 < arr2.length) {
+					output.push(arr2[i2]);
+					i2++;
+				}
+			
+				return output;
+			}
+			
+			function mergeSort(arr) {
+						
+				if (arr.length == 1 || arr.length == 0) {
+					return arr;
+				} else {
+				
+					var arr1 = arr.slice(0,Math.floor(arr.length/2));
+					var arr2 = arr.slice(Math.floor(arr.length/2), arr.length);
+				
+					arr1 = mergeSort(arr1);
+					arr2 = mergeSort(arr2);
+				
+					return mergeArray(arr1, arr2);
+				}
+			}
+			
+			async function radixSort1(arr, index) {
+				
+			
+				var buckets = [[],[],[],[],[],[],[],[],[],[]];
+				var output = [];
+				
+				
+				for (var i = 0; i < arr.length; i++) {
+					if (index >= String(arr[i]).length) {
+						output.push(arr[i]);
+						continue;
+					}
+				
+					var y = String(arr[i]).length - 1 - index;
+					var x = String(arr[i]).charAt(y);
+					
+					buckets[x].push(arr[i]);
+					await new Promise(r => setTimeout(r, 1));
+					drawArray(collapse(output,buckets));
+				}
+				
+			
+				var flag = false;
+				for (i of buckets) {
+					
+					if (i.length > 1) {
+						flag = true;
+					}
+					output = output.concat(i);
+				}
+				
+				
+							
+				if (flag) {
+					return radixSort1(output, index + 1);
+				}
+				return output;
+			
+			}
+			
+			function collapse(output,buckets) {
+				for (i of buckets) {
+					output = output.concat(i);
+				}
+				return output;
+			}
+			
+			
+			
+					
+			var canvas;
+			var context;
+			
+			function start() {
+				canvas = document.getElementById("canvas");
+				context = canvas.getContext("2d");
+				driver();
+			}
+			
+			
+			function driver() {
+				var max = 30;
+				var number = 1000;
+				var arr = [];
+				
+				for (var i = 0; i < number; i++) {
+					arr.push(Math.floor(Math.random() * Math.floor(max)));
+				}
+			
+				arr = radixSort1(arr,0);
+				drawArray(arr);
+			}
+			
+			function drawArray(arr) {
+				
+				context.clearRect(0, 0, canvas.width, canvas.height);
+					
+				var numberOfElements = arr.length;
+				var max = Math.max(...arr);
+			
+				for (var i = 0; i < arr.length; i++) {
+					context.beginPath();
+					x = canvas.width/numberOfElements * i;
+					y = canvas.height;
+					width = canvas.width/numberOfElements
+					height =  - canvas.height/max * arr[i];
+					
+					context.rect(x,y,width,height);
+				
+					context.fillStyle = "green";
+					context.fill();
+				}
+			}
+		
+		</script>
+	</head>
+	<body onload="start()">
+		<canvas id="canvas" width="1000px" height="500px"></canvas>
+	</body>
+</html>

@@ -1,0 +1,203 @@
+<html>
+	<head>
+		<title>Radix visualiser</title>
+		<style>
+			#canvas {
+				border: 1px solid black;
+			}
+		</style>
+		<script>
+			
+			class LList {
+				constructor () {
+					this.first = null;
+					this.last = null;
+				}
+				
+				addElement(value) {
+					if (this.first == null) {
+						this.first = new LListElement(value);
+						this.last = this.first;
+					} else {
+						this.last = this.first.addElement(value);
+					}
+				}
+				
+				print() {
+					return this.first.print();
+				}
+			}
+			
+			class LListElement {
+				constructor(value) {
+					this.value = value;
+					this.next = null;
+				}
+				
+				addElement(value) {
+					if (this.next == null) {
+						this.next = new LListElement(value);
+						return this.next;
+					} else {
+						return this.next.addElement(value);
+					}
+				}
+				
+				print() {
+					if (this.next == null) {
+						return this.value;
+					} else {
+						return this.value + " " + this.next.print();
+					}
+				}
+				
+				
+			}
+			
+			
+			var canvas;
+			var context;
+			var count = 0;
+			
+			var number = 1000;
+			var max = 1000;
+			
+			
+			function start() {
+				canvas = document.getElementById("canvas");
+				context = canvas.getContext("2d");
+				
+				driver();
+				
+			}
+			
+			function driver() {
+				
+				var arr = [];
+				
+				for (var i = 0; i < number; i++) {
+					arr.push(Math.floor(Math.random() * max));
+				}
+				
+				//shuffle(arr);
+				
+				count++;
+				radixSort(arr, 0, arr.length - 1, 0, max.toString(2).length, finished);
+					
+			
+			}
+			
+			function finished(arr) {
+				for (var i = 0; i < arr.length; i++) {
+					
+					if (arr[i] > arr[i+1]) {
+						console.log("fuck");
+					}
+				}
+				
+				console.log("done!");
+			}
+					
+			async function radixSort(arr,start,stop,bit,bits, finished) {
+				console.log(count);
+				
+								
+				if (start > stop) {
+					
+				} else if (bit > bits) {
+					
+				} else {
+			
+					var last = stop;
+					
+					for (var i = start; i <= last; i++) {
+						var number = arr[i];
+					
+						//number to binary with leading zeros;
+						number = zeroPad(parseInt(number).toString(2),bits);
+						
+						if (number[bit] == 1 ) {
+							var temp = arr[i];
+							arr[i] = arr[last];
+							arr[last] = temp;
+							last--;
+							i--;
+							
+							await new Promise(r => setTimeout(r, 1));
+							drawArray(arr);
+										
+						} 
+					}
+									
+					count += 2;
+					radixSort(arr, start, last, bit + 1, bits, finished)
+					radixSort(arr, last + 1, stop, bit + 1, bits, finished);
+				}
+				
+			
+				count -= 1;
+				if (count == 0) {
+					finished(arr);
+				}
+			}
+			
+			function drawArray(arr) {
+				
+				context.clearRect(0, 0, canvas.width, canvas.height);
+					
+				var numberOfElements = arr.length;
+				var max = Math.max(...arr);
+			
+				for (var i = 0; i < arr.length; i++) {
+					context.beginPath();
+					x = canvas.width/numberOfElements * i;
+					y = canvas.height;
+					width = canvas.width/numberOfElements
+					height =  - canvas.height/max * arr[i];
+					
+					context.rect(x,y,width,height);
+					
+					context.fillStyle = 'hsl(' + (arr[i]/max) * 360 + ', 100%, 50%)';
+					context.fill();
+				}
+			}
+			
+			
+			//https://jsperf.com/left-zero-pad/10
+			//https://stackoverflow.com/questions/1267283/how-can-i-pad-a-value-with-leading-zeros
+			function zeroPad(n,w){
+			  var n_ = Math.abs(n);
+				var zeros = Math.max(0, w - Math.floor(n_).toString().length );
+				var zeroString = Math.pow(10,zeros).toString().substr(1);
+				if( n < 0 ) {
+					zeroString = '-' + zeroString;
+				}
+
+			  return zeroString+n;
+			}
+			
+			//https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+			function shuffle(array) {
+				var currentIndex = array.length, temporaryValue, randomIndex;
+
+				// While there remain elements to shuffle...
+				while (0 !== currentIndex) {
+
+					// Pick a remaining element...
+					randomIndex = Math.floor(Math.random() * currentIndex);
+					currentIndex -= 1;
+
+					// And swap it with the current element.
+					temporaryValue = array[currentIndex];
+					array[currentIndex] = array[randomIndex];
+					array[randomIndex] = temporaryValue;
+				}
+
+				return array;
+			}
+		</script>
+	</head>
+	<body onload="start()">
+		<canvas id="canvas" width="1000px" height="500px"></canvas>
+	</body>
+</html>

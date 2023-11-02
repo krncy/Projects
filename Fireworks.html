@@ -1,0 +1,146 @@
+<html>
+	<head>
+		<style>
+			* {
+				margin: 0px;
+				padding: 0px;
+			}
+			
+			#ground {
+				width: 100%;
+				position: absolute;
+				height: 1px;
+				background-color: green;
+			}
+			
+			div {
+				position: absolute;
+			}
+			
+	
+			
+		
+						
+		</style>
+		
+		<script>
+			var gravity = 0.2;
+			var windResistance = 0.01
+			var time = 0;
+			
+			function Particle(width, height, x, xVel, xAcc, y, yVel, yAcc) {
+				this.width = width;
+				this.height = height;
+				
+				this.x = x;
+				this.xVel = xVel;
+				this.xAcc = xAcc;
+				
+				this.y = y;
+				this.yVel = yVel;
+				this.yAcc = yAcc;
+			}	
+		
+			var mainBody = new Particle(10, 20, 500, 0, 0, 0, 0, 0);	
+	
+			function Point(x,y) {
+				this.x = x;
+				this.y = y;
+			}
+	
+			function start() {
+				document.getElementById("ground").style.bottom = "0px";
+				drawBody();
+				setInterval(clock, 17);
+			}
+			
+			
+			function drawBody() {
+				var div = document.createElement("div");
+				document.getElementById("ground").appendChild(div);
+				div.id = "mainBody";
+				div.style.left = mainBody.x + "px";
+				div.style.bottom = mainBody.y + "px";
+				div.style.width =  mainBody.width + "px";
+				div.style.height = mainBody.height + "px";
+				div.style.backgroundColor = "red";
+			}
+			
+			function launch() {
+				mainBody.yAcc = 3;
+				
+				mainBody.xAcc = 3 / Math.tan(Number(document.getElementById("text").value) * Math.PI / 180);
+				
+			}
+			
+			function clock() {
+				time++;
+				updateForces(mainBody);
+				updateUI();
+			}
+		
+			function updateUI() {
+			
+				var e = document.getElementById("mainBody");
+				e.style.left = mainBody.x;
+				e.style.bottom = mainBody.y;
+				
+				var text = "";
+				text += "Time: " + time + "<br>";
+				text += "x: " + mainBody.x + "<br>";
+				text += "y: " + mainBody.y + "<br>";
+				text += "xVel: " + mainBody.xVel + "<br>";
+				text += "yVel: " + mainBody.yVel + "<br>";
+				text += "xAcc: " + mainBody.xAcc + "<br>";
+				text += "yAcc: " + mainBody.yAcc + "<br>";
+								
+				document.getElementById("data").innerHTML = text;
+			}
+			
+				
+			function updateForces(particle) {
+		
+				particle.y += particle.yVel;
+				particle.x += particle.xVel;
+				
+				if (particle.y < 0) {
+					particle.y = 0;
+				} 
+				
+				if (particle.y >= 0) {
+					particle.yVel += particle.yAcc;
+				}
+				
+				particle.xVel += particle.xAcc;
+				
+				if (particle.y > 0) {
+					particle.yAcc -= gravity;
+					particle.yAcc *= (1 - windResistance);
+				}
+				
+				particle.xAcc *= (1 - windResistance);
+
+				
+				if (particle.y <= 0 && particle.yVel < 0) {
+					particle.yVel = 0;
+					particle.yAcc = 0;
+					particle.xVel = 0;
+					particle.xAcc = 0;
+				}
+			}
+			
+			
+		
+			
+		</script>
+	</head>
+	<body onload="start()">
+		<input type="text" id="text">
+		<button onclick="launch()">Launch</button>
+		<div id="data">
+		</div>
+		<div id = "ground">
+			
+		</div>
+	</body>
+</html>

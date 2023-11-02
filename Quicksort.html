@@ -1,0 +1,177 @@
+<html>
+	<head>
+		<title>quicksort</title>
+		<style>
+			#canvas {
+				border: 1px solid black;
+			}
+		</style>
+		<script>
+			
+			
+			
+			
+			var canvas;
+			var context;
+			var count = 0;
+			
+			var number = 100;
+			var max = 100;
+			
+			
+			function start() {
+				canvas = document.getElementById("canvas");
+				context = canvas.getContext("2d");
+				
+				driver();
+				
+			}
+			
+			var count = 0;
+			
+			async function driver() {
+				
+				var arr = [];
+				
+				for (var i = 0; i < number; i++) {
+					arr.push(Math.floor(Math.random() * max));
+				}
+						
+				count++;
+				quickSort2(arr,0,arr.length-1);
+				
+			
+				while (count != 0) {
+					await new Promise(r => setTimeout(r, 1));
+				}	
+				
+				for (var i = 0; i < arr.length; i++) {
+					if (arr[i] > arr[i+1]) {
+						console.log("fuck");
+					}
+				}
+				
+				
+				
+			}
+			
+			function quickSort(arr) {
+				
+				if (arr.length == 0 || arr.length == 1) {
+					return arr;
+				} else {
+				
+					var pivot = Math.floor((arr.length - 1) / 2);
+
+					var arr1 = [];
+					var arr2 = [];
+					
+					for (var i = 0; i < arr.length; i++) {
+					
+						if (i == pivot) {
+							continue;
+						} else if (arr[i] < arr[pivot]) {
+							arr1.push(arr[i]);
+						} else {
+							arr2.push(arr[i]);
+						}
+					}
+						
+					arr1 = quickSort(arr1);
+					arr1.push(arr[pivot])
+					arr2 = quickSort(arr2);
+					
+					return arr1.concat(arr2);
+				}
+			}
+			
+			async function quickSort2(arr,start,end) {
+								
+				if (start < end) {
+					var temp;
+					var pivot = end;
+					var last = end - 1;
+					
+					for (var i = start; i <= last; i++) {
+						
+						
+						if (arr[pivot] < arr[i]) {
+					
+							temp = arr[i];
+							arr[i] = arr[last];
+							arr[last] = temp;
+							last--;
+							i--;
+						}
+						
+						drawArray(arr);
+						await new Promise(r => setTimeout(r, 1));
+					}
+				
+				
+					temp = arr[last+1]
+					arr[last+1] = arr[end]
+					arr[end] = temp;
+					
+					drawArray(arr);
+					await new Promise(r => setTimeout(r, 1));
+					
+					count += 2;
+					quickSort2(arr,start,last);
+					quickSort2(arr,last + 2, end);
+					
+				}
+				
+				count -= 1;
+				
+			}
+			
+			function drawArray(arr) {
+				
+				context.clearRect(0, 0, canvas.width, canvas.height);
+					
+				var numberOfElements = arr.length;
+				var max = Math.max(...arr);
+			
+				for (var i = 0; i < arr.length; i++) {
+					context.beginPath();
+					x = canvas.width/numberOfElements * i;
+					y = canvas.height;
+					width = canvas.width/numberOfElements
+					height =  - canvas.height/max * arr[i];
+					
+					context.rect(x,y,width,height);
+					
+					context.fillStyle = 'hsl(' + (arr[i]/max) * 360 + ', 100%, 50%)';
+					context.fill();
+				}
+			}
+			
+			
+			
+			
+			//https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+			function shuffle(array) {
+				var currentIndex = array.length, temporaryValue, randomIndex;
+
+				// While there remain elements to shuffle...
+				while (0 !== currentIndex) {
+
+					// Pick a remaining element...
+					randomIndex = Math.floor(Math.random() * currentIndex);
+					currentIndex -= 1;
+
+					// And swap it with the current element.
+					temporaryValue = array[currentIndex];
+					array[currentIndex] = array[randomIndex];
+					array[randomIndex] = temporaryValue;
+				}
+
+				return array;
+			}
+		</script>
+	</head>
+	<body onload="start()">
+		<canvas id="canvas" width="1000px" height="500px"></canvas>
+	</body>
+</html>

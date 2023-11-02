@@ -1,0 +1,344 @@
+<html>
+	<head>
+		<title>Tetris</title>
+		<style>
+			#canvas {
+				background: white;
+				border: 1px solid black;
+			}
+		</style>
+		<script>
+		
+			class Tile {
+				constructor(colour, pos, active) {
+					this.colour = colour;
+					this.pos = pos;
+					this.active = active;
+				}
+			}
+			
+			class Point {
+				constructor(x, y) {
+					this.x = x;
+					this.y = y;
+				}
+			}
+			
+			var canvas;
+			var context;
+			var width;
+			var height;
+			
+			var boxSize = 50;
+			var grid;
+		
+			var offset = new Point(0,0);
+	
+			function load() {
+				canvas = document.getElementById("canvas");
+				context = canvas.getContext("2d");
+				context.translate(0.5, 0.5);
+				
+				width = canvas.width;
+				height = canvas.height;
+				
+				initGrid();
+				
+				offset = new Point(3,3);
+				grid[9][2] = new Tile("green", new Point(2,2), true);
+				grid[3][3] = new Tile("blue", new Point(2,3), true);
+				grid[4][4] = new Tile("red", new Point(2,4), true);
+				
+				
+				
+				
+				draw();
+			}
+			
+			function initGrid() {
+				grid = [];
+				var row = [];
+				
+				for (var x = 0; x < (width-1)/boxSize; x++) { 
+					row = [];
+					for (var y = 0; y < (height-1)/boxSize; y++) {
+						row.push(new Tile("clear", new Point(x,y), false));
+					}
+					grid.push(row);
+				}
+			}
+			
+			
+			
+			
+			function start() {
+				setInterval(gameLoop, 100);
+			
+			}
+			
+			
+			function gameLoop() {
+				moveActiveTetrominoesDown();
+				draw();
+				console.log("hello");
+			
+			}
+			
+			
+		
+			function moveActiveTetrominoesDown() {
+				var bottom = (height-1)/boxSize - 1;
+				var right = (width-1)/boxSize - 1;
+			
+				var flag = true;
+				
+				
+				for (var x = 0; x <= right ; x++) { 
+					for (var y = 0; y <= bottom - 1; y++) {
+						
+						if (grid[x][y].active == true) {
+							if (grid[x][y+1].colour != "clear") {
+								if (grid[x][y+1].active != true) {
+									flag = false
+								}
+							}
+						}
+					}
+				}
+				
+				for (var x = 0; x <= right; x++) {
+					if (grid[x][bottom].active == true) {
+						flag = false;
+					}
+				}
+				
+				if (!flag) {
+					return;
+				}
+				
+				offset = new Point(offset.x, offset.y + 1);
+				
+				//check if a block on the current row is falling, if it is, shift it down a row (y+1);
+				for (var x = 0; x <= right; x++) { 
+					for (var y = bottom - 1; y >= 0; y--) {
+					
+						if (grid[x][y].active == true) {
+							if (grid[x][y+1].colour == "clear") {
+								grid[x][y+1] = grid[x][y];
+								grid[x][y+1].pos = new Point(x,y+1);
+								grid[x][y] = new Tile("clear", new Point(x,y), false);
+							}
+						}
+					}
+				}
+			}
+			
+			function moveActiveTetrominoesLeft() {
+				var bottom = (height-1)/boxSize - 1;
+				var right = (width-1)/boxSize - 1;
+				
+				var flag = true;
+			
+				for (var x = 1; x <= right; x++) { 
+					for (var y = 0; y <= bottom; y++) {
+						if (grid[x][y].active == true) {
+							if (grid[x-1][y].colour != "clear") {
+								if (grid[x-1][y].active != true) {
+									flag = false;
+								}
+							}
+						}
+					}
+				}
+			
+				for (var y = 0; y <= bottom; y++) {
+					if (grid[0][y].active == true) {
+						flag = false;
+					}
+				}
+				
+				if (!flag) {
+					return;
+				}
+				
+				offset = new Point(offset.x - 1, offset.y);
+				
+				for (var x = 1; x <= right; x++) { 
+					for (var y = 0; y <= bottom; y++) {
+						if (grid[x][y].active == true) {
+							if (grid[x-1][y].colour == "clear") {
+								grid[x-1][y] = grid[x][y];
+								grid[x-1][y].pos = new Point(x - 1, y);
+								grid[x][y] = new Tile("clear", new Point(x,y), false);
+							}
+						}
+					}
+				}
+			}
+			
+			function moveActiveTetrominoesRight() {
+				var bottom = (height-1)/boxSize - 1;
+				var right = (width-1)/boxSize - 1;
+				
+				var flag = true;
+			
+				for (var x = 0; x <= right - 1; x++) { 
+					for (var y = 0; y <= bottom; y++) {
+						if (grid[x][y].active == true) {
+							if (grid[x+1][y].colour != "clear") {
+								if (grid[x+1][y].active != true) {
+									flag = false;
+								}
+							}
+						}
+					}
+				}
+			
+				for (var y = 0; y <= bottom; y++) {
+					if (grid[right][y].active == true) {
+						flag = false;
+					}
+				}
+				
+				if (!flag) {
+					return;
+				}
+				
+				offset = new Point(offset.x + 1, offset.y);
+				
+				for (var x = right - 1; x >= 0; x--) { 
+					for (var y = 0; y <= bottom; y++) {
+						if (grid[x][y].active == true) {
+							if (grid[x+1][y].colour == "clear") {
+								grid[x+1][y] = grid[x][y];
+								grid[x+1][y].pos = new Point(x + 1, y);
+								grid[x][y] = new Tile("clear", new Point(x,y), false);
+							}
+						}
+					}
+				}
+			}
+			
+			function rotateTetrominoClockwise(arr) {
+				var newArr = [];
+				
+				for (var i = 0; i < arr.length; i++) {
+					newArr.push(new Array(arr.length));
+				}
+				
+				for (var x = 0; x < arr.length; x++) {
+					for (var y = 0; y < arr.length; y++) {
+						newArr[x][y] = arr[arr.length - 1 - y][x]
+						newArr[x][y].pos = new Point(arr.length - 1 - y,x)
+					}
+				}
+				return newArr;
+			}
+			
+			function rotateTetrominoAntiClockwise(arr) {
+				var newArr = [];
+				
+				for (var i = 0; i < arr.length; i++) {
+					newArr.push(new Array(arr.length));
+				}
+				
+				for (var x = 0; x < arr.length; x++) {
+					for (var y = 0; y < arr.length; y++) {
+						newArr[x][y] = arr[y][arr.length - 1 - x]
+						newArr[x][y].pos = new Point(y,arr.length - 1 - x)
+					}
+				}
+				return newArr;
+			}
+			
+			
+		
+		
+			function extractActiveTetrominoe(offset, tetSize) {
+				var output = [];
+				
+				for (var i = 0; i < tetSize; i++) {
+					output.push(new Array(tetSize));
+				}
+				
+				for (var x = 0; x < tetSize; x++) {
+					for (var y = 0; y < tetSize; y++) {
+						console.log(x, y, grid[x][y]);
+						output[x][y] = grid[x + offset.x][y + offset.y];
+						if (output[x][y] == undefined) {output[x][y] == new Tile("clear", new Point(x + offset.x,y + offset.y), false);}
+						grid[x + offset.x][y + offset.y] = new Tile("clear", new Point(x + offset.x,y + offset.y), false)
+					}
+				}
+				
+				console.log(output);
+			
+			}
+		
+			function draw() {
+				context.clearRect(0,0,width,height);
+				drawTetrominoes(grid);
+				drawMatrix();
+			}
+			
+			function drawMatrix() {
+				
+				context.beginPath();
+							
+				for (var x = 0; x <= width; x += boxSize) {
+					context.moveTo(x, 0);
+					context.lineTo(x , height);
+				}
+
+				for (var y = 0; y <= height; y += boxSize) {
+					context.moveTo(0, y);
+					context.lineTo(width, y);
+				}
+							
+				context.strokeStyle = "black";
+				context.stroke();
+			}
+					
+			function drawTetrominoes(arr) {	
+				for (var x = 0; x < arr.length; x++) {
+					for (var y = 0; y < arr[x].length; y++) {
+						if (arr[x][y].colour != "clear") {
+							context.fillStyle = arr[x][y].colour;
+							context.fillRect(x*50, y*50, 50, 50);
+						}
+					}
+				}
+			}
+			
+			
+			function handleKey(event) {
+				if (event.key == "a") {
+					moveActiveTetrominoesLeft();
+				}
+				
+				if (event.key == "d") {
+					moveActiveTetrominoesRight();
+				}
+				
+				if (event.key == "s") {
+					moveActiveTetrominoesDown();
+				}
+				
+				if (event.key == " ") {
+					start();
+				}
+				
+				if (event.key == "w") {
+					
+					console.log("rotate");
+				}
+				
+				draw();
+			}
+						
+		</script>
+	</head>
+	<body onload="load()" onkeydown="handleKey(event)">
+		<canvas id="canvas" width="701px" height="601px"></canvas>
+		
+	</body>
+</html>

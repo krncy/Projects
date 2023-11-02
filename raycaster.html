@@ -1,0 +1,256 @@
+<html>
+	<head>
+		<title>Ray caster</title>
+		<style>
+			#canvas {
+			background: black;
+				border: 2px solid black;
+			}
+		</style>
+		<script>
+			var numberOfRays = 10;
+			var numberOfWalls = 5;
+			var opacity = 0.05;
+		
+			var mouseX = 50;
+			var mouseY = 50;
+			var canvas;
+			var context;
+			var walls = []
+			
+			var counter = 0;
+			var t = Date.now();
+			
+			//init stuff
+			function load() {
+				canvas = document.getElementById("canvas");
+				context = canvas.getContext("2d");
+				walls[0] = new Wall(0,0,0,canvas.height);
+				walls[1] = new Wall(0,0,canvas.width,0);
+				walls[2] = new Wall(0,canvas.height,canvas.width,canvas.height);
+				walls[3] = new Wall(canvas.width,0,canvas.width,canvas.height);
+				
+				for (var i = 4; i < numberOfWalls + 4; i++) {
+					//walls[i] = new Wall(Math.floor(Math.random()*canvas.width),Math.floor(Math.random()*canvas.height),Math.floor(Math.random()*canvas.width),Math.floor(Math.random()*canvas.height));
+				}
+				
+				walls[4] = new Wall(500,100,100,100);
+				walls[5] = new Wall(100,100,100,500);
+				walls[6] = new Wall(100,500,200,500);
+				walls[7] = new Wall(200,500,200,300);
+				walls[8] = new Wall(200,300,400,300);
+				walls[9] = new Wall(400,300,400,600);
+				walls[10] = new Wall(400,600,500,600);
+				walls[11] = new Wall(500,600,500,300);
+				walls[12] = new Wall(500,300,750,300);
+				walls[13] = new Wall(750,300,500,100);
+		
+				drawWalls();
+				drawRays();
+			}
+			
+			function updateCirlce(event) {
+				counter++;
+				
+				if (counter = 100) {
+					var t1 = Date.now();
+					var diff = t1 - t;
+					t = t1;
+					document.getElementById("fps").innerHTML = (1000/100 * counter/diff) + " fps";
+					counter = 0;
+				}	
+				
+				mouseX = event.clientX;
+				mouseY = event.clientY;
+				context.clearRect(0, 0, canvas.width, canvas.height);
+				drawWalls();
+				drawRays();
+				drawCircle();
+
+			}
+			
+			function drawCircle() {
+				context.beginPath();
+				context.arc(mouseX, mouseY, 10, 0, 2*Math.PI);
+				context.fillStyle = "yellow";
+				context.fill();
+			}
+					
+			function drawWalls() {
+			context.beginPath();
+			context.strokeStyle = "blue";
+			
+				for (var i = 0; i < walls.length; i++) {
+					context.moveTo(walls[i].x1,walls[i].y1);
+					context.lineTo(walls[i].x2,walls[i].y2);
+				
+				}
+				context.stroke();
+			}
+			
+			
+			function drawRays() {
+				context.beginPath();
+				context.strokeStyle = "rgba(255,255,255," + opacity + ")";
+				for (var i = 0; i < 2*Math.PI; i += 2*Math.PI/numberOfRays) {
+				
+										
+					var x2 = mouseX + Math.sin(i);
+					var y2 = mouseY + Math.cos(i);
+					
+					var closestPoint = null;
+					var closestDistance = null;
+					
+					for (var j = 0; j < walls.length; j++) {
+						var point = kms(mouseX, mouseY, x2, y2, walls[j].x1, walls[j].y1, walls[j].x2, walls[j].y2);
+						
+						if (point == null) {continue;}
+						
+						var d = Math.sqrt((mouseX-point.x)**2 + (mouseY-point.y)**2);
+						
+						if (closestDistance == null) {
+							closestPoint = point;
+							closestDistance = d;	
+						} 
+						
+						else if (closestDistance > d) {
+							closestPoint = point;
+							closestDistance = d;	
+						}
+					}
+					
+					if (closestPoint != null) {
+						context.moveTo(mouseX,mouseY);
+						context.lineTo(closestPoint.x,closestPoint.y);
+						
+					} 
+				}
+				context.stroke();
+			}
+			
+			function kms(x1, y1, x2, y2, x3, y3, x4, y4) {
+				var a1 = (y2 - y1)/(x2 - x1);
+				var b1 = y1 - x1 * a1;
+				var a2 = (y4 - y3)/(x4 - x3);
+				var b2 = y3 - x3 * a2;
+				
+				
+				if (x1 == x2 && x3 == x4) {
+					if (x1 == x3) {
+						if (y2 - y1 > 0) {
+							return null;
+							return new Point(x1,Math.max(y3,y4));
+							
+						}
+						if (y2 - y1 < 0) {
+							return null;
+							return new Point(x1,Math.min(y3,y4));
+						}
+					} 
+					return null;
+				} else if (x1 == x2) {
+					
+					var x = x1;
+					var y = a2 * x1 + b2;
+				
+					
+				
+				} else if (x3 == x4) {
+					var x = x3;
+					var y = a1 * x3 + b1;
+				
+				} else {
+					var x = (b2 - b1)/(a1 - a2);
+					var y = a1 * x + b1;
+				}
+				
+				if (x3 < x4) {
+					if (x > x4) return null;
+					if (x < x3) return null;
+				}
+				
+				if (x4 < x3) {
+					if (x > x3) return null;
+					if (x < x4) return null;
+				}
+			
+				if (y3 < y4) {
+					if (y > y4) return null;
+					if (y < y3) return null;
+				}
+				
+				if (y4 < y3) {
+					if (y > y3) return null;
+					if (y < y4) return null;
+				}
+				
+				if (x2 - x1 > 0) {
+					if (x < x1) {
+						return null;
+					}
+				}
+				
+				if (x2 - x1 < 0) {
+					if (x > x1) {
+						return null;
+					}
+				}
+				
+				if (x2 - x1 == 0) {
+					//pointing up
+					if (y2 - y1 > 0) {
+						if ((y3 < y2) || (y4 < y2)) {
+							return null;
+						}
+					}
+					//pointing down
+					if (y1 - y2 > 0) {
+						if ((y3 > y2) || (y4 > y2)) {
+							return null;
+						}
+					}
+				}
+							
+				return new Point(x,y);
+			}
+			
+			class Wall {
+				constructor(x1,y1,x2,y2) {
+					this.x1 = x1;
+					this.y1 = y1;
+					this.x2 = x2;
+					this.y2 = y2;
+				}
+			}
+			
+			class Point {
+				constructor(x,y) {
+					this.x = x;
+					this.y = y;
+				}
+			}
+			
+			function changeRays(value) {
+				numberOfRays = value;
+				document.getElementById("raySliderText").innerHTML = value;
+			}
+			function changeOpacity(value) {
+				opacity = value;
+				document.getElementById("opacitySliderText").innerHTML = parseFloat(value).toFixed(3);
+			}
+			
+		</script>
+	</head>
+	<body onload="load()" onmousemove="updateCirlce(event)">
+		<canvas id="canvas" width="1700px" height="800px"></canvas>
+		<div>
+			<span id="fps">0 fps</span>
+			<br>
+			Number of rays
+			<span id="raySliderText">10000</span><input type="range" min="0" max="50000" value="10000" class="slider" id="raySlider" onchange="changeRays(value)"></input>
+			<br>
+			Opacity
+			<span id="opacitySliderText">0.05</span><input type="range" min="0" max="0.2" step="0.005" value="0.05" class="slider" id="opacitySlider" onchange="changeOpacity(value)"></input>
+		</div>
+	</body>
+</html>

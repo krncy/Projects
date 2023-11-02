@@ -1,0 +1,238 @@
+<html>
+	<head>
+		<style>
+			* {
+				margin: 0px;
+				padding: 0px;
+			}
+			
+			#ground {
+				width: 100%;
+				position: absolute;
+				height: 1px;
+				background-color: green;
+			}
+			
+			#mainBody {
+				position: absolute;
+				background-color: red;
+				border: 1px solid black;
+			}
+			
+			.yumyums {
+				background-color: yellow;
+				position: absolute;
+				border: 1px solid black;
+			}
+						
+		</style>
+		
+		<script>
+			var gravity = 0.8;
+			var speed = 7;
+			var maxSizeYumyums = 30;
+			var numberOfYumyums = 1000;
+	
+	
+			var consumedMass = 800;
+			var keys = [];
+			var yumyums = [];
+			var time = 0;
+			var groundOffset = 200;
+			
+			var mainBody = new Object();
+			mainBody.width = calculateSize();
+			mainBody.height = calculateSize();
+			mainBody.x = 0;
+			mainBody.y = 0;
+			mainBody.yVel = 0;
+			mainBody.yAcc = 0;
+			
+			document.onkeyup = function(event){keys[event.keyCode] = false;};
+			document.onkeydown = function(event){keys[event.keyCode] = true;};
+		
+			function Point(x,y) {
+				this.x = x;
+				this.y = y;
+			}
+			
+			function Yumyum(point, size) {
+				this.x = point.x;
+				this.y = point.y;
+				this.size = size;
+			}
+			
+			function start() {
+				document.getElementById("ground").style.top = groundOffset + "px";
+				createYumyums(numberOfYumyums);
+				drawYumyums();
+				updateUI();
+				setInterval(getUserInput,10);
+				setInterval(clock, 17);
+			}
+			
+			function clock() {
+				updateForces();
+				checkCollisions();
+				changeGroundLevel();
+				updateUI();
+			}
+			
+			function changeGroundLevel() {
+				time += 0.01;
+				
+				groundOffset = Math.abs(Math.sin(time)) * (document.body.clientHeight-250);
+				groundOffset += 230;
+			}
+
+			function updateUI() {
+				document.getElementById("ground").style.top = groundOffset + "px";
+			
+				var mainBodyElement = document.getElementById("mainBody")
+				mainBodyElement.style.left = mainBody.x + "px";
+				mainBodyElement.style.bottom = mainBody.y + "px";
+				mainBodyElement.style.width = mainBody.width + "px";
+				mainBodyElement.style.height = mainBody.height + "px";
+				
+				var text = "";
+				text += "consumedMass: " + consumedMass + "<br>";
+				text += "size: " + mainBody.width + "<br>";
+				text += "height: " + mainBody.y + "<br>";
+				text += "velocity: " + mainBody.yVel + "<br>";
+				text += "acceleration: " + mainBody.yAcc + "<br>";
+				//text += "groundOffset: " + groundOffset + "<br>";
+								
+				document.getElementById("data").innerHTML = text;
+			}
+			
+			function calculateSize() {
+				return 2 * Math.atan(0.0002*consumedMass) / Math.PI * 100;
+			}
+			
+			function createYumyums(n) {
+				for (var i = 0; i < n; i++) {
+					var yum = new Yumyum(new Point(Math.floor(Math.random() * (document.body.clientWidth - maxSizeYumyums)), Math.floor(Math.random() * 200)),
+								Math.floor((Math.random() * 4) + calculateSize() - 4));
+					yumyums[i] = yum;
+				}
+			}
+			
+			function drawYumyums() {
+				for (var i = 0; i < yumyums.length; i++) {
+					var div = document.createElement("div");
+					document.getElementById("ground").appendChild(div);
+					div.id = "yumyum" + i;
+					div.className = "yumyums";
+					div.style.left = yumyums[i].x + "px";
+					div.style.bottom = yumyums[i].y + "px";
+					div.style.width =  yumyums[i].size + "px";
+					div.style.height = yumyums[i].size + "px";
+				}
+			}
+						
+			function jump() {
+				if (mainBody.yAcc == 0) {
+					mainBody.yAcc = 5;
+				}
+			}
+			
+			function updateForces() {
+		
+				mainBody.y += mainBody.yVel;
+				if (mainBody.y < 0) {
+					mainBody.y = 0;
+				} 
+				
+				if (mainBody.y >= 0) {
+					mainBody.yVel += mainBody.yAcc;
+				}
+				
+				if (mainBody.y > 0) {
+					mainBody.yAcc -= gravity
+				}
+				
+				if (mainBody.y <= 0 && mainBody.yVel < 0) {
+					mainBody.yVel = 0
+					mainBody.yAcc = 0
+				}
+			}
+			
+			function checkCollisions() {
+				
+				var l1 = new Point(mainBody.x, mainBody.y + mainBody.height);
+				var r1 = new Point(mainBody.x + mainBody.width, mainBody.y);
+				
+				var test = true;
+				for (var i = 0; i < yumyums.length; i++) {
+					if (yumyums[i] != null){
+					
+						test = false;
+						
+						var l = yumyums[i];
+						var l2 = new Point(l.x, l.y + l.size);
+						var r2 = new Point(l.x + l.size, l.y);
+						
+						if (l1.x > r2.x || l2.x > r1.x) {
+							continue;
+						}
+	 
+						if (l1.y < r2.y || l2.y < r1.y) {
+							continue;
+						}
+						
+						if (yumyums[i].size <= calculateSize()) {
+						
+							consumedMass += yumyums[i].size;
+					
+							yumyums[i] = null;
+							document.getElementById("yumyum" + i).remove();
+						
+							mainBody.width = calculateSize();
+							mainBody.height = calculateSize();
+						}
+						
+						
+					} 
+				}
+				
+				if (test) {
+					yumyums = [];
+					createYumyums(numberOfYumyums);
+					drawYumyums();
+				}
+				
+			}
+		
+			function getUserInput() {
+			
+				//left
+				if (keys[37]) {
+					if (mainBody.x > 0) {
+						mainBody.x -= speed;
+					}
+					
+				} 
+				
+				//right
+				if (keys[39]) {
+					if (mainBody.x + mainBody.width + 10  < document.body.clientWidth) {
+						mainBody.x += speed;
+					}
+				}
+				
+				//a
+				if (keys[65]) {
+					jump();
+				}
+			}
+		</script>
+	</head>
+	<body onload="start()">
+		<div id="data">
+		</div>
+		<div id = "ground">
+			<div id="mainBody">
+			</div>
+		</div>
+	</body>
+</html>

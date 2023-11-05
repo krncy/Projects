@@ -8,7 +8,7 @@
 			}
 		</style>
 		<script>
-			var numberOfRays = 10;
+			var numberOfRays = 10000;
 			var numberOfWalls = 5;
 			var opacity = 0.05;
 		
@@ -60,8 +60,8 @@
 					counter = 0;
 				}	
 				
-				mouseX = event.clientX;
-				mouseY = event.clientY;
+				mouseX = event.clientX - canvas.offsetLeft + window.scrollX;
+				mouseY = event.clientY - canvas.offsetTop + window.scrollY;
 				context.clearRect(0, 0, canvas.width, canvas.height);
 				drawWalls();
 				drawRays();
@@ -242,6 +242,11 @@
 		</script>
 	</head>
 	<body onload="load()" onmousemove="updateCirlce(event)">
+		<div id="info">
+			<p>This is a simple 2D raycasting simulator to light up a scene.</p>
+			</br>
+		</div>
+		
 		<canvas id="canvas" width="1700px" height="800px"></canvas>
 		<div>
 			<span id="fps">0 fps</span>
@@ -249,7 +254,7 @@
 			Number of rays
 			<span id="raySliderText">10000</span><input type="range" min="0" max="50000" value="10000" class="slider" id="raySlider" onchange="changeRays(value)"></input>
 			<br>
-			Opacity
+			Brightness
 			<span id="opacitySliderText">0.05</span><input type="range" min="0" max="0.2" step="0.005" value="0.05" class="slider" id="opacitySlider" onchange="changeOpacity(value)"></input>
 		</div>
 	</body>

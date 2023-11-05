@@ -196,8 +196,8 @@
 		
 			function stub() {
 				if (!started) {
-					mouseX = event.clientX;
-					mouseY = event.clientY;
+					mouseX = event.clientX - canvas.offsetLeft + window.scrollX;
+					mouseY = event.clientY - canvas.offsetTop + window.scrollY;
 					
 					context.clearRect(0, 0, canvas.width, canvas.height);
 					
@@ -214,6 +214,10 @@
 		</script>
 	</head>
 	<body onload="load()" onmousemove="stub()" onmousedown="start()">
+		<div id="info">
+			<p>This is a game based upon the game peggle. Aim the ball with the cursor, then click to shoot the ball towards the pegs! each peg hit will award points.</p>
+			</br>
+		</div>
 		<canvas id="canvas" width="500px" height="500px"></canvas>
 	</body>
 </html>

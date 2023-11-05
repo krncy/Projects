@@ -205,29 +205,33 @@
 		
 			function getUserInput() {
 			
-				//left
-				if (keys[37]) {
+				//a - move left
+				if (keys[65]) {
 					if (mainBody.x > 0) {
 						mainBody.x -= speed;
 					}
 					
 				} 
 				
-				//right
-				if (keys[39]) {
+				//d - move right
+				if (keys[68]) {
 					if (mainBody.x + mainBody.width + 10  < document.body.clientWidth) {
 						mainBody.x += speed;
 					}
 				}
 				
-				//a
-				if (keys[65]) {
+				//w - jump
+				if (keys[87]) {
 					jump();
 				}
 			}
 		</script>
 	</head>
 	<body onload="start()">
+		<div id="info">
+			<p> Move around with A (left), D (right), W (jump) to consume as many cubes as you can!</p>
+			</br>
+		</div>
 		<div id="data">
 		</div>
 		<div id = "ground">

@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>4x4 Grid Layout</title>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
+	<script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
+	<style>
         /* Container for the grid */
         .grid {
             display: grid;
@@ -22,7 +24,7 @@
             display: flex;
             justify-content: center; /* Center content horizontally */
             align-items: center; /* Center content vertically */
-            color: Black; /* Text color */
+            color: #000000; /* Text color */
             font-size: 20px; /* Font size for any text inside cells */
 			font-family: Helvetica;
 			text-align: center;
@@ -38,10 +40,60 @@
     </style>
 	
 	<script>
+		defaultColour = "#f0f0f0"
+		completedColour = "#24d44d"
+		
+		function rgbToHex(col) {
+			if(col.charAt(0)=='r')
+			{
+				col=col.replace('rgb(','').replace(')','').split(',');
+				var r=parseInt(col[0], 10).toString(16);
+				var g=parseInt(col[1], 10).toString(16);
+				var b=parseInt(col[2], 10).toString(16);
+				r=r.length==1?'0'+r:r; g=g.length==1?'0'+g:g; b=b.length==1?'0'+b:b;
+				var colHex='#'+r+g+b;
+				return colHex;
+			}
+		}
+		
+		
 		function handleCellClick(element) {
             // Example action: change the background color and display the cell's text
-            element.style.backgroundColor = '#ff5722'; // Change the background color
+			element.classList.toggle("completed-cell")
+			
+			if (rgbToHex(element.style.backgroundColor) == completedColour) {
+				element.style.backgroundColor = defaultColour; 
+			} else {
+				element.style.backgroundColor = completedColour; 
+			}
         }
+		
+		
+		function updateTextColour(element) {
+			x = document.getElementsByClassName("grid-cell")
+			for (var i = 0; i < x.length; i++) {
+				x[i].style.color = element.value
+			}
+		}
+		
+		function updateDefaultColour(element) {
+			defaultColour = element.value
+			x = document.getElementsByClassName("grid-cell")
+			for (var i = 0; i < x.length; i++) {
+				
+				if (!x[i].classList.contains("completed-cell")) {
+					x[i].style.backgroundColor = defaultColour
+				}
+			}
+		}
+		
+		function updateCompletedColour(element) {
+			completedColour = element.value
+			x = document.getElementsByClassName("completed-cell")
+			for (var i = 0; i < x.length; i++) {
+				x[i].style.backgroundColor = completedColour
+			}
+		}
 	</script>
 	
 </head>
@@ -76,9 +128,11 @@
 	<div>
 
 	<div>
-		Text colour:
-		Default cell colour:
-		Completed cell colour:
+		Text colour: <input type="text" value="#000000" onchange="updateTextColour(this)" data-coloris>
+		</br>
+		Default cell colour: <input type="text" value="#f0f0f0" onchange="updateDefaultColour(this)" data-coloris>
+		</br> 
+		Completed cell colour: <input type="text" value="#24d44d" onchange="updateCompletedColour(this)" data-coloris>
 	</div>
 </body>
 </html>

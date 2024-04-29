@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>4x4 Grid Layout</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        /* Container for the grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 200px); /* 4 columns, each 100px wide */
+            grid-template-rows: repeat(4, 200px); /* 4 rows, each 100px tall */
+            gap: 10px; /* 10px border/gap between cells */
+            background-color: #f0f0f0; /* Background color for visual contrast */
+            padding: 10px; /* Padding around the whole grid */
+        }
+
+        /* Style for each cell */
+        .grid-cell {
+            background-color: White; /* Example background color for the cells */
+            border: 2px solid #333; /* Border around each cell */
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
+            color: Black; /* Text color */
+            font-size: 20px; /* Font size for any text inside cells */
+			font-family: Helvetica;
+			text-align: center;
+        }
+		#content {
+			position: absolute
+		}
+		#title {
+			font-size: 50px; /* Font size for any text inside cells */
+			font-family: Helvetica;
+			text-align: center;
+		}
+    </style>
+	
+	<script>
+		function handleCellClick(element) {
+            // Example action: change the background color and display the cell's text
+            element.style.backgroundColor = '#ff5722'; // Change the background color
+        }
+	</script>
+	
+</head>
+<body>
+	
+
+	<div id="content">
+	<div id="title">
+		Cone Cunts Bingo
+	</div>
+    <!-- Grid container -->
+    <div class="grid">
+	
+        <!-- 16 grid cells (4x4) -->
+        <div class="grid-cell" onclick="handleCellClick(this)">Zulrah </br> </br> Unique drop </br> </br> 1 point</div>
+        <div class="grid-cell" onclick="handleCellClick(this)">Raids </br> </br> 2 Uniques </br> </br> 2 points</div>
+        <div class="grid-cell" onclick="handleCellClick(this)">Skilling boss </br> </br> Tome of Fire</br> OR  </br>Tome of Water </br> </br> 1 point</div>
+        <div class="grid-cell" onclick="handleCellClick(this)"></br></br>4 Enh. Crys. Tele seeds </br>OR </br> 2 Blood shards </br> </br> 2 points</div>
+        <div class="grid-cell" onclick="handleCellClick(this)">Vorkath </br> </br> Unique drop (no head) </br></br> 3 points</div>
+        <div class="grid-cell" onclick="handleCellClick(this)">Clues </br> </br> Easy clue with value atleast 400k </br></br> 1 point</div>
+        <div class="grid-cell" onclick="handleCellClick(this)">Slayer </br></br> Slayer boss unique drop </br> </br>1 point</div>
+        <div class="grid-cell" onclick="handleCellClick(this)">DT2 </br> </br> 2 Virtus pieces </br> OR </br> Vestige </br> </br>3 points</div>
+        <div class="grid-cell" onclick="handleCellClick(this)">GWD </br> </br>  Body & Leg </br> OR </br> Hilt </br></br> 2 points</div>
+        <div class="grid-cell" onclick="handleCellClick(this)">Revenents </br></br> Weapon drop </br></br> 3 points</div>
+        <div class="grid-cell" onclick="handleCellClick(this)">Dagganoth Kings </br></br>LORD OF THE RINGS</br></br> 2 points</div>
+        <div class="grid-cell" onclick="handleCellClick(this)">Jad </br></br>3 Firecapes </br> 1 per person</br></br> 1 point </div>
+        <div class="grid-cell" onclick="handleCellClick(this)">Corrupt Gauntlet </br></br> 3 Armour/Weapon <br> OR </br> Enhanced Weapon seed </br></br> 2 points</div>
+        <div class="grid-cell" onclick="handleCellClick(this)">Barrows/Perilous Moons </br></br>5 Armour/Weapon drops</br></br> 2 points</div>
+        <div class="grid-cell" onclick="handleCellClick(this)">Wilderness </br></br>Ring drop</br></br> 2 points</div>
+        <div class="grid-cell" onclick="handleCellClick(this)">Nightmare </br></br>Unique drop</br></br> 3 points</div>
+    </div>
+	<div>
+
+	<div>
+		Text colour:
+		Default cell colour:
+		Completed cell colour:
+	</div>
+</body>
+</html>

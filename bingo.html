@@ -40,6 +40,7 @@
     </style>
 	
 	<script>
+		textColour = "#000000"
 		defaultColour = "#f0f0f0"
 		incompleteColour = "#eb921e"
 		completedColour = "#24d44d"
@@ -78,31 +79,32 @@
 			}
         }
 		
-		function updateTextColour(element) {
+		function updateTextColour(colour) {
+			textColour = colour
 			x = document.getElementsByClassName("grid-cell")
 			for (var i = 0; i < x.length; i++) {
-				x[i].style.color = element.value
+				x[i].style.color = textColour
 			}
 		}
 		
-		function updateDefaultColour(element) {
-			defaultColour = element.value
+		function updateDefaultColour(colour) {
+			defaultColour = colour
 			x = document.getElementsByClassName("incomplete-cell")
 			for (var i = 0; i < x.length; i++) {
 				x[i].style.backgroundColor = defaultColour
 			}
 		}
 		
-		function updateInProgressColour(element) {
-			incompleteColour = element.value
+		function updateInProgressColour(colour) {
+			incompleteColour = colour
 			x = document.getElementsByClassName("in-progress-cell")
 			for (var i = 0; i < x.length; i++) {
 				x[i].style.backgroundColor = incompleteColour
 			}
 		}
 		
-		function updateCompletedColour(element) {
-			completedColour = element.value
+		function updateCompletedColour(colour) {
+			completedColour = colour
 			x = document.getElementsByClassName("completed-cell")
 			for (var i = 0; i < x.length; i++) {
 				x[i].style.backgroundColor = completedColour
@@ -131,11 +133,38 @@
 			}
 			return "";
 		}
+
+		function readCookies() {
+			
+			if (getCookie("textColour") != "") {
+				setCookie("textColour", "#000000", 365)
+			} else {
+				textColour = getCookie("textColour")
+			}
+			
+			if (getCookie("defaultColour") != "") {
+				setCookie("defaultColour", "#f0f0f0", 365)
+			} else {
+				defaultColour = getCookie("defaultColour")
+			}
+				
+			if (getCookie("incompleteColour") != "") {
+				setCookie("incompleteColour", "#eb921e", 365)
+			} else {
+				incompleteColour = getCookie("incompleteColour")
+			}
+			
+			if (getCookie("completedColour") != "") {
+				setCookie("completedColour", "#24d44d", 365)
+			} else {
+				completedColour = getCookie("completedColour")
+			}	
+		}
 		
 	</script>
 	
 </head>
-<body>
+<body onload="readCookies()">
 
 	<div id="content">
 	<div id="title">Cone Cunts Bingo</div>
@@ -225,13 +254,13 @@
 	<div>
 
 	<div>
-		Text colour: <input type="text" value="#000000" onchange="updateTextColour(this)" data-coloris>
+		Text colour: <input type="text" value="#000000" onchange="updateTextColour(this.value)" data-coloris>
 		</br>
-		Incomplete cell colour: <input type="text" value="#f0f0f0" onchange="updateDefaultColour(this)" data-coloris>
+		Incomplete cell colour: <input type="text" value="#f0f0f0" onchange="updateDefaultColour(this.value)" data-coloris>
 		</br>
-		In progress cell colour: <input type="text" value="#eb921e" onchange="updateInProgressColour(this)" data-coloris>
+		In progress cell colour: <input type="text" value="#eb921e" onchange="updateInProgressColour(this.value)" data-coloris>
 		</br> 		
-		Completed cell colour: <input type="text" value="#24d44d" onchange="updateCompletedColour(this)" data-coloris>
+		Completed cell colour: <input type="text" value="#24d44d" onchange="updateCompletedColour(this.value)" data-coloris>
 	</div>
 </body>
 </html>

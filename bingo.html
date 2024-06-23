@@ -136,25 +136,25 @@
 
 		function readCookies() {
 			
-			if (getCookie("textColour") != "") {
+			if (getCookie("textColour") == "") {
 				setCookie("textColour", "#000000", 365)
 			} else {
 				textColour = getCookie("textColour")
 			}
 			
-			if (getCookie("defaultColour") != "") {
+			if (getCookie("defaultColour") == "") {
 				setCookie("defaultColour", "#f0f0f0", 365)
 			} else {
 				defaultColour = getCookie("defaultColour")
 			}
 				
-			if (getCookie("incompleteColour") != "") {
+			if (getCookie("incompleteColour") == "") {
 				setCookie("incompleteColour", "#eb921e", 365)
 			} else {
 				incompleteColour = getCookie("incompleteColour")
 			}
 			
-			if (getCookie("completedColour") != "") {
+			if (getCookie("completedColour") == "") {
 				setCookie("completedColour", "#24d44d", 365)
 			} else {
 				completedColour = getCookie("completedColour")

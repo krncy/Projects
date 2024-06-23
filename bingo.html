@@ -63,19 +63,25 @@
 			if (element.classList.contains("incomplete-cell")) {
 				element.classList.remove("incomplete-cell")
 				element.classList.add("in-progress-cell")
-				element.style.backgroundColor = incompleteColour; 
+				element.style.backgroundColor = incompleteColour;
+				
+				setCookie(element.id, "in-progress-cell", 365)
 			} 
 			// change in progress cell to completed cell
 			else if (element.classList.contains("in-progress-cell")) {
 				element.classList.remove("in-progress-cell")
 				element.classList.add("completed-cell")
-				element.style.backgroundColor = completedColour; 
+				element.style.backgroundColor = completedColour;
+				
+				setCookie(element.id, "completed-cell", 365)
 			} 
 			// change completed cell to incompleted cell
 			else if (element.classList.contains("completed-cell")) {
 				element.classList.remove("completed-cell")
 				element.classList.add("incomplete-cell")
 				element.style.backgroundColor = defaultColour; 
+				
+				setCookie(element.id, "", 365)
 			}
         }
 		
@@ -148,40 +154,50 @@
 
 		function readCookies() {
 			
+			//read text colour cookie
 			if (getCookie("textColour") == "") {
 				setCookie("textColour", "#000000", 365)
 			} else {
 				textColour = getCookie("textColour")
 			}
 			
-			updateTextColour(textColour)
-			document.getElementById("colour-picker-text").value = textColour
-			
+			//read default cell colour cookie
 			if (getCookie("defaultColour") == "") {
 				setCookie("defaultColour", "#f0f0f0", 365)
 			} else {
 				defaultColour = getCookie("defaultColour")
 			}
-				
-			updateDefaultColour(defaultColour)
-				
+			
+			//read Incomplete cell colour cookie
 			if (getCookie("incompleteColour") == "") {
 				setCookie("incompleteColour", "#eb921e", 365)
 			} else {
 				incompleteColour = getCookie("incompleteColour")
 			}
 			
-			updateInProgressColour(incompleteColour)
-			
+			//read completed cell colour cookie
 			if (getCookie("completedColour") == "") {
 				setCookie("completedColour", "#24d44d", 365)
 			} else {
 				completedColour = getCookie("completedColour")
 			}
 			
+			for (var i = 0; i < 9; i++) {
+				for (var j = 0; j < 9; j++) {
+					cellID = "cell" + "-" + i + "-" + j
+					x = getCookie(cellID)
+					if (x == "in-progress-cell" || x == "completed-cell") {
+						document.getElementById(cellID).classList.remove("incomplete-cell")
+						document.getElementById(cellID).classList.add(x)
+					}
+				}
+			}
+			
+			updateTextColour(textColour)
+			updateDefaultColour(defaultColour)
+			updateInProgressColour(incompleteColour)
 			updateCompletedColour(completedColour)
 		}
-		
 	</script>
 	
 </head>
@@ -193,7 +209,7 @@
     <div class="grid">
 	
         <!-- col 1 -->
-        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div id="cell-1-1" class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
         <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
         <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
         <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>

@@ -155,6 +155,7 @@
 			}
 			
 			updateTextColour(textColour)
+			document.getElementById("colour-picker-text").value = textColour
 			
 			if (getCookie("defaultColour") == "") {
 				setCookie("defaultColour", "#f0f0f0", 365)
@@ -274,13 +275,13 @@
 	<div>
 
 	<div>
-		Text colour: <input type="text" value="#000000" onchange="updateTextColour(this.value)" data-coloris>
+		Text colour: <input id="colour-picker-text" type="text" value="#000000" onchange="updateTextColour(this.value)" data-coloris>
 		</br>
-		Incomplete cell colour: <input type="text" value="#f0f0f0" onchange="updateDefaultColour(this.value)" data-coloris>
+		Incomplete cell colour: <input id="colour-picker-incomplete" type="text" value="#f0f0f0" onchange="updateDefaultColour(this.value)" data-coloris>
 		</br>
-		In progress cell colour: <input type="text" value="#eb921e" onchange="updateInProgressColour(this.value)" data-coloris>
+		In progress cell colour: <input id="colour-picker-inprogress" type="text" value="#eb921e" onchange="updateInProgressColour(this.value)" data-coloris>
 		</br> 		
-		Completed cell colour: <input type="text" value="#24d44d" onchange="updateCompletedColour(this.value)" data-coloris>
+		Completed cell colour: <input id="colour-picker-completed"type="text" value="#24d44d" onchange="updateCompletedColour(this.value)" data-coloris>
 	</div>
 </body>
 </html>

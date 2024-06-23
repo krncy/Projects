@@ -81,6 +81,9 @@
 		
 		function updateTextColour(colour) {
 			textColour = colour
+			
+			setCookie("textColour", textColour + "", 365)
+			
 			x = document.getElementsByClassName("grid-cell")
 			for (var i = 0; i < x.length; i++) {
 				x[i].style.color = textColour
@@ -89,6 +92,9 @@
 		
 		function updateDefaultColour(colour) {
 			defaultColour = colour
+			
+			setCookie("defaultColour", defaultColour + "", 365)
+			
 			x = document.getElementsByClassName("incomplete-cell")
 			for (var i = 0; i < x.length; i++) {
 				x[i].style.backgroundColor = defaultColour
@@ -97,6 +103,9 @@
 		
 		function updateInProgressColour(colour) {
 			incompleteColour = colour
+			
+			setCookie("incompleteColour", incompleteColour + "", 365)
+			
 			x = document.getElementsByClassName("in-progress-cell")
 			for (var i = 0; i < x.length; i++) {
 				x[i].style.backgroundColor = incompleteColour
@@ -105,6 +114,9 @@
 		
 		function updateCompletedColour(colour) {
 			completedColour = colour
+			
+			setCookie("completedColour", completedColour + "", 365)
+			
 			x = document.getElementsByClassName("completed-cell")
 			for (var i = 0; i < x.length; i++) {
 				x[i].style.backgroundColor = completedColour

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>4x4 Grid Layout</title>
+    <title>Cone cunts Bingo</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
 	<script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
@@ -10,8 +10,8 @@
         /* Container for the grid */
         .grid {
             display: grid;
-            grid-template-columns: repeat(4, 200px); /* 4 columns, each 100px wide */
-            grid-template-rows: repeat(4, 200px); /* 4 rows, each 100px tall */
+            grid-template-columns: repeat(8, 200px); /* 4 columns, each 100px wide */
+            grid-template-rows: repeat(8, 200px); /* 4 rows, each 100px tall */
             gap: 10px; /* 10px border/gap between cells */
             background-color: #f0f0f0; /* Background color for visual contrast */
             padding: 10px; /* Padding around the whole grid */
@@ -41,6 +41,7 @@
 	
 	<script>
 		defaultColour = "#f0f0f0"
+		incompleteColour = "#eb921e"
 		completedColour = "#24d44d"
 		
 		function rgbToHex(col) {
@@ -56,18 +57,26 @@
 			}
 		}
 		
-		
 		function handleCellClick(element) {
-            // Example action: change the background color and display the cell's text
-			element.classList.toggle("completed-cell")
-			
-			if (rgbToHex(element.style.backgroundColor) == completedColour) {
-				element.style.backgroundColor = defaultColour; 
-			} else {
+            // change incompleted cell to in progress cell
+			if (element.classList.contains("incomplete-cell")) {
+				element.classList.remove("incomplete-cell")
+				element.classList.add("in-progress-cell")
+				element.style.backgroundColor = incompleteColour; 
+			} 
+			// change in progress cell to completed cell
+			else if (element.classList.contains("in-progress-cell")) {
+				element.classList.remove("in-progress-cell")
+				element.classList.add("completed-cell")
 				element.style.backgroundColor = completedColour; 
+			} 
+			// change completed cell to incompleted cell
+			else if (element.classList.contains("completed-cell")) {
+				element.classList.remove("completed-cell")
+				element.classList.add("incomplete-cell")
+				element.style.backgroundColor = defaultColour; 
 			}
         }
-		
 		
 		function updateTextColour(element) {
 			x = document.getElementsByClassName("grid-cell")
@@ -78,12 +87,17 @@
 		
 		function updateDefaultColour(element) {
 			defaultColour = element.value
-			x = document.getElementsByClassName("grid-cell")
+			x = document.getElementsByClassName("incomplete-cell")
 			for (var i = 0; i < x.length; i++) {
-				
-				if (!x[i].classList.contains("completed-cell")) {
-					x[i].style.backgroundColor = defaultColour
-				}
+				x[i].style.backgroundColor = defaultColour
+			}
+		}
+		
+		function updateInProgressColour(element) {
+			incompleteColour = element.value
+			x = document.getElementsByClassName("in-progress-cell")
+			for (var i = 0; i < x.length; i++) {
+				x[i].style.backgroundColor = incompleteColour
 			}
 		}
 		
@@ -94,44 +108,129 @@
 				x[i].style.backgroundColor = completedColour
 			}
 		}
+		
+		function setCookie(cname, cvalue, exdays) {
+		  const d = new Date();
+		  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+		  let expires = "expires="+ d.toUTCString();
+		  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+		}
+		
+		function getCookie(cname) {
+			let name = cname + "=";
+			let decodedCookie = decodeURIComponent(document.cookie);
+			let ca = decodedCookie.split(';');
+			for(let i = 0; i <ca.length; i++) {
+				let c = ca[i];
+				while (c.charAt(0) == ' ') {
+					c = c.substring(1);
+				}
+				if (c.indexOf(name) == 0) {
+					return c.substring(name.length, c.length);
+				}
+			}
+			return "";
+		}
+		
 	</script>
 	
 </head>
 <body>
-	
 
 	<div id="content">
-	<div id="title">
-		Cone Cunts Bingo
-	</div>
+	<div id="title">Cone Cunts Bingo</div>
     <!-- Grid container -->
     <div class="grid">
 	
-        <!-- 16 grid cells (4x4) -->
-        <div class="grid-cell" onclick="handleCellClick(this)">Zulrah </br> </br> Unique drop </br> </br> 1 point</div>
-        <div class="grid-cell" onclick="handleCellClick(this)">Raids </br> </br> 2 Uniques </br> </br> 2 points</div>
-        <div class="grid-cell" onclick="handleCellClick(this)">Skilling boss </br> </br> Tome of Fire</br> OR  </br>Tome of Water </br> </br> 1 point</div>
-        <div class="grid-cell" onclick="handleCellClick(this)"></br></br>4 Enh. Crys. Tele seeds </br>OR </br> 2 Blood shards </br> </br> 2 points</div>
-        <div class="grid-cell" onclick="handleCellClick(this)">Vorkath </br> </br> Unique drop (no head) </br></br> 3 points</div>
-        <div class="grid-cell" onclick="handleCellClick(this)">Clues </br> </br> Easy clue with value atleast 400k </br></br> 1 point</div>
-        <div class="grid-cell" onclick="handleCellClick(this)">Slayer </br></br> Slayer boss unique drop </br> </br>1 point</div>
-        <div class="grid-cell" onclick="handleCellClick(this)">DT2 </br> </br> 2 Virtus pieces </br> OR </br> Vestige </br> </br>3 points</div>
-        <div class="grid-cell" onclick="handleCellClick(this)">GWD </br> </br>  Body & Leg </br> OR </br> Hilt </br></br> 2 points</div>
-        <div class="grid-cell" onclick="handleCellClick(this)">Revenents </br></br> Weapon drop </br></br> 3 points</div>
-        <div class="grid-cell" onclick="handleCellClick(this)">Dagganoth Kings </br></br>LORD OF THE RINGS</br></br> 2 points</div>
-        <div class="grid-cell" onclick="handleCellClick(this)">Jad </br></br>3 Firecapes </br> 1 per person</br></br> 1 point </div>
-        <div class="grid-cell" onclick="handleCellClick(this)">Corrupt Gauntlet </br></br> 3 Armour/Weapon <br> OR </br> Enhanced Weapon seed </br></br> 2 points</div>
-        <div class="grid-cell" onclick="handleCellClick(this)">Barrows/Perilous Moons </br></br>5 Armour/Weapon drops</br></br> 2 points</div>
-        <div class="grid-cell" onclick="handleCellClick(this)">Wilderness </br></br>Ring drop</br></br> 2 points</div>
-        <div class="grid-cell" onclick="handleCellClick(this)">Nightmare </br></br>Unique drop</br></br> 3 points</div>
+        <!-- col 1 -->
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+		<div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+		
+		<!-- col 2 -->
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+		<div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+		
+		<!-- col 3 -->
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+		<div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+		
+		<!-- col 4 -->
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+		<div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+		
+		<!-- col 5 -->
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+		<div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+		
+		<!-- col 6 -->
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+		<div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+		
+		<!-- col 7 -->
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+		<div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+		
+		<!-- col 8 -->
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+        <div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
+		<div class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Name</br></br> Description</br></br>Points TBD</div>
     </div>
 	<div>
 
 	<div>
 		Text colour: <input type="text" value="#000000" onchange="updateTextColour(this)" data-coloris>
 		</br>
-		Default cell colour: <input type="text" value="#f0f0f0" onchange="updateDefaultColour(this)" data-coloris>
-		</br> 
+		Incomplete cell colour: <input type="text" value="#f0f0f0" onchange="updateDefaultColour(this)" data-coloris>
+		</br>
+		In progress cell colour: <input type="text" value="#eb921e" onchange="updateInProgressColour(this)" data-coloris>
+		</br> 		
 		Completed cell colour: <input type="text" value="#24d44d" onchange="updateCompletedColour(this)" data-coloris>
 	</div>
 </body>

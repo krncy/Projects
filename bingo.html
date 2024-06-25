@@ -6,9 +6,12 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
 	<script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+	
 	<style>
         /* Container for the grid */
-        .grid {
+        #grid {
             display: grid;
             grid-template-columns: repeat(8, 200px); /* 4 columns, each 100px wide */
             grid-template-rows: repeat(8, 200px); /* 4 rows, each 100px tall */
@@ -41,7 +44,7 @@
 	
 	<script>
 		textColour = "#000000"
-		defaultColour = "#f0f0f0"
+		defaultColour = "#ffffff"
 		incompleteColour = "#eb921e"
 		completedColour = "#24d44d"
 		
@@ -151,7 +154,7 @@
 			}
 			return "";
 		}
-
+	
 		function readCookies() {
 			
 			//read text colour cookie
@@ -198,6 +201,21 @@
 			updateInProgressColour(incompleteColour)
 			updateCompletedColour(completedColour)
 		}
+		
+		function screenshot() {
+			console.log("hi")
+			html2canvas(document.querySelector("#grid")).then(canvas => {
+				canvas.toBlob(function(blob) {
+					const item = new ClipboardItem({ "image/png": blob });
+					navigator.clipboard.write([item]).then(function() {
+						alert('Screenshot copied to clipboard!');
+					}, function(error) {
+						alert('Unable to copy screenshot to clipboard.');
+						console.error('Error copying to clipboard: ', error);
+					});
+				});
+			});
+		}
 	</script>
 	
 </head>
@@ -206,7 +224,7 @@
 	<div id="content">
 	<div id="title">Cone Cunts Bingo</div>
     <!-- Grid container -->
-    <div class="grid">
+    <div id="grid">
 	
         <!-- col 1 -->
         <div id="cell-1-1" class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Keys</br></br>Dusk </br>Daggonhai</br>Dragonstone</br>x2 drop</br></br>Points TBD</div>
@@ -288,7 +306,8 @@
         <div id="cell-8-7" class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Get Good</br></br> Infernal Cape</br>Dizana's Quiver </br> CLOG</br></br>Points TBD</div>
 		<div id="cell-8-8" class="grid-cell incomplete-cell" onclick="handleCellClick(this)">Clannies</br></br> Win BOTW</br>Win SOTW</br></br>Points TBD</div>
     </div>
-	<div>
+	
+	<button onclick="screenshot()">Screenshot!</button>
 
 	<div>
 		Text colour: <input id="colour-picker-text" type="text" value="#000000" onchange="updateTextColour(this.value)" data-coloris>

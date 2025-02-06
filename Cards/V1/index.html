@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shithead</title>
+	<style>
+       body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #3498db; /* Set a background color for the body */
+            font-family: 'Arial', sans-serif;
+        }
+
+        #main {
+            display: flex;
+            margin: 0 auto;
+        }
+
+        #log {
+            position: fixed;
+            overflow-y: auto;
+            border-right: 1px solid #ccc; 
+            background-color: white;
+        }
+
+        #sit_start {
+			position: fixed;
+			top: 50px;
+			left: 200px;
+            margin-left: 10px;
+			z-index: 5555;
+        }
+		
+		#poker-table-container {
+            position: fixed;
+			marin: 0px;
+			padding: 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+ 
+        }
+		
+        #poker-table {
+            position: relative;
+            background-color: #2ecc71;
+            border: 10px solid #8e44ad; 
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+		#hand {
+			position: fixed;
+			display: flex;
+			justify-content: center;
+		}
+		
+        .seat {
+            position: absolute;
+            background-color: #e74c3c;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            color: white;
+            flex-direction: column;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); 
+            transition: transform 0.3s ease-in-out; 
+			justify-content: space-evenly;
+        }
+
+        .seat:hover {
+            transform: scale(2); /* Scale up the seat on hover */
+			z-index:555555 !important;
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin: 0px;
+        }
+
+        .card {
+			border: 2px solid #f39c12; 
+			border-radius: 10px; 
+			position: relative; 
+			text-align: center; 
+			font-size: 24px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin: 5px;
+			color: black;
+		}
+		.card-face-down {
+			background-color: #f39c12;
+		}
+		
+		.card-face-up {
+			background-color: white;
+		}
+		
+		.card-select-initial {
+			background-color: white;
+		}
+		
+		.heart, .diamond {
+			color: red;
+		}
+		
+		.spade, .club {
+			color: black;
+		}
+			
+		#select-card-container {
+			display: flex;
+			justify-content: space-around;
+			margin-bottom: 20px;
+			z-index: 55555;
+		}
+		
+		.selected {
+			border: 2px solid blue;
+		}
+
+		#confirm-btn {
+			display: block;
+			margin: 0 auto;
+		}
+
+		#confirm-btn:disabled {
+			background-color: #d3d3d3; /* Grey out the button when disabled */
+			cursor: not-allowed;
+		}
+		
+		#overlay-select-card {
+			display: none; /* Start with the overlay hidden */
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.7); /* semi-transparent black overlay */
+			z-index: 9999; /* set a high z-index to make sure it's on top of everything */
+			flex-direction: column;
+			align-items: center;
+			justify-content: center; /* Center vertically and horizontally */
+
+		}
+		
+		#select-card-container {
+			display: flex;
+			justify-content: center; /* Adjust as needed */
+			width: 100%; /* Ensure the cards take up the full width */
+		}
+		
+		#middle-cards-container {
+			display: flex;
+			justify-content: center; /* Adjust as needed */
+		}
+		
+	
+    </style>
+	<script>
+		
+	</script>
+</head>
+<body>
+
+	<div id="main">
+		<div id="log"></div>
+		<div id="sit_start"></div>
+		<div id="poker-table-container"></div>
+		<div id="hand"></div>
+	</div>
+	
+	<div id="overlay-select-card">
+		
+	</div>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+	<script src="client.js"></script>
+
+</body>
+</html>

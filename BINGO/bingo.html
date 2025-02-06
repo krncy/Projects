@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Cone cunts Bingo</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
 	<script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -50,20 +49,25 @@
 			display: block;
 		}
 
-	.tooltip {
-		background-color: rgba(211, 211, 211, 0.95); /* Light gray with slight opacity */
-		color: black;
-		white-space: nowrap; /* Prevent text from wrapping to the next line */
-		display: none;
-		position: absolute;
-		top: 100%; /* Align tooltip to the top of the grid cell */
-		margin-left: 10px; /* Add space between the element and tooltip */
-		border-radius: 3px; /* Optional: Adds rounded corners to the tooltip */
-		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: Adds a subtle shadow */
-		z-index: 1000;
-		min-width: 0; /* Prevents width from being constrained */
-		padding: 5px 10px; /* Optional: Adjust padding for a nicer look */
-	}
+		.tooltip {
+			background-color: rgba(211, 211, 211, 0.9); /* Light gray with slight opacity */
+			color: black;
+			white-space: nowrap; /* Prevent text from wrapping to the next line */
+			display: none;
+			position: absolute;
+			top: 100%; /* Align tooltip to the bottom of the grid cell */
+			left: 50%; /* Center the tooltip horizontally */
+			transform: translateX(-50%); /* Shift it back by half its width to center it */
+			margin-top: 5px; /* Space between the grid cell and the tooltip */
+			border-radius: 3px; /* Optional: Adds rounded corners */
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: Adds a subtle shadow */
+			z-index: 1000;
+			min-width: 0; /* Prevents width from being constrained */
+			padding: 5px 10px; /* Optional: Adjust padding for a nicer look */
+			width: max-content; /* Tooltip width is determined by its content */
+		}
+
+
     </style>
 	
 	<script>
@@ -281,40 +285,41 @@
 	<div id="title">Cone Cunts Bingo</div>
     <!-- Grid container -->
     <div id="grid">
-	       
-		<div id="cell-1" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-2" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-3" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-4" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-5" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-6" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-7" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-8" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-9" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-10" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-11" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-12" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-13" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-14" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-15" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-16" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-17" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-18" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-19" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-20" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-21" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-22" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-23" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-24" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-25" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-26" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-27" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-28" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-29" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-30" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-31" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-<div id="cell-32" class="grid-cell incomplete-cell" rules="Rules LOTS OF BULL SHIT I HATE RUNESCAPE!@!!! <br> rule 1 <br> rule 2">Tile <br> or <br> yep</div>
-    </div>
+		
+		<div id="cell-1" class="grid-cell incomplete-cell" rules="Rules">Barrows Unique</div>
+		<div id="cell-2" class="grid-cell incomplete-cell" rules="Rules">Dragon Pickaxe <br> or <br> Dragon2H</div>
+		<div id="cell-3" class="grid-cell incomplete-cell" rules="Rules">Flared Trousers <br> or <br> Ham Joint</div>
+		<div id="cell-4" class="grid-cell incomplete-cell" rules="Rules">Virtus Piece</div>
+		<div id="cell-5" class="grid-cell incomplete-cell" rules="Rules">Cox Scroll</div>
+		<div id="cell-6" class="grid-cell incomplete-cell" rules="Rules">Avernic Defender</div>
+		<div id="cell-7" class="grid-cell incomplete-cell" rules="Rules">GWD Hilt</div>
+		<div id="cell-8" class="grid-cell incomplete-cell" rules="Rules">Raid Megarare</div>
+		<div id="cell-9" class="grid-cell incomplete-cell" rules="Rules">Scurrius Unique</div>
+		<div id="cell-10" class="grid-cell incomplete-cell" rules="Uniques include the following: <br> Tomes <br> outfit pieces <br> etc <br> etc">Tempoross unqiue <br> or <br> Wintertodt unqiue</div>
+		<div id="cell-11" class="grid-cell incomplete-cell" rules="Rules">Deafeat DS1 in under 19 minutes</div>
+		<div id="cell-12" class="grid-cell incomplete-cell" rules="Rules">Fang <br> or <br> Lightbearer</div>
+		<div id="cell-13" class="grid-cell incomplete-cell" rules="Rules">Zulrah Unique</div>
+		<div id="cell-14" class="grid-cell incomplete-cell" rules="Rules">DT2 Ring <br> or <br> 3 x Ingots</div>
+		<div id="cell-15" class="grid-cell incomplete-cell" rules="Rules">Revenant Weapon</div>
+		<div id="cell-16" class="grid-cell incomplete-cell" rules="Rules">Get a pet</div>
+		<div id="cell-17" class="grid-cell incomplete-cell" rules="Rules">Dark bow Colour from LMS</div>
+		<div id="cell-18" class="grid-cell incomplete-cell" rules="Rules">Medium Clue Boot drop</div>
+		<div id="cell-19" class="grid-cell incomplete-cell" rules="Rules">Royal Giants Unique</div>
+		<div id="cell-20" class="grid-cell incomplete-cell" rules="Rules">Revenant Totem <br> or <br> Revenant Crystal</div>
+		<div id="cell-21" class="grid-cell incomplete-cell" rules="Rules">GWD Armour Piece</div>
+		<div id="cell-22" class="grid-cell incomplete-cell" rules="Rules">Odium/Malediction Ward</div>
+		<div id="cell-23" class="grid-cell incomplete-cell" rules="Rules">Raids Armour Piece</div>
+		<div id="cell-24" class="grid-cell incomplete-cell" rules="Rules">Vorkath Unique</div>
+		<div id="cell-25" class="grid-cell incomplete-cell" rules="Rules">Gnome Cooking Unique</div>
+		<div id="cell-26" class="grid-cell incomplete-cell" rules="Rules">Kill 3x Penance Queen</div>
+		<div id="cell-27" class="grid-cell incomplete-cell" rules="Rules">Sarachnis Cudgel <br> or <br> 2 DMH</div>
+		<div id="cell-28" class="grid-cell incomplete-cell" rules="Rules">Huey Unique</div>
+		<div id="cell-29" class="grid-cell incomplete-cell" rules="Rules">3x Fire cape <br> or <br> Fire cape GM time</div>
+		<div id="cell-30" class="grid-cell incomplete-cell" rules="Rules">Voidwaker <br> or <br> Wildy ring set</div>
+		<div id="cell-31" class="grid-cell incomplete-cell" rules="Rules">Nightmare Unique</div>
+		<div id="cell-32" class="grid-cell incomplete-cell" rules="Rules">SPONDONICLES <br> SPECIAL</div>
+	
+	</div>
 	
 	<button onclick="screenshot()">Screenshot!</button>
 

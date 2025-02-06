@@ -14,9 +14,9 @@ def read_bingo_file(filename):
 
 if __name__ == "__main__":
     bingo_data = read_bingo_file("BINGO.txt")
-    print(bingo_data)
+    
     for idx, (tile, rule) in enumerate(bingo_data, start=1):
         tile = tile.replace("*", "<br>")
         rule = rule.replace("*", "<br>")
-        print(f'<div id="cell-{idx}" class="grid-cell incomplete-cell" rules="{rule}">{tile}</div>')
+        print(f"<div id=\"cell-{idx}\" class=\"grid-cell incomplete-cell\" rules=\"{rule}\">{tile}</div>")
     

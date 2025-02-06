@@ -1,0 +1,8 @@
+tile1 * this * or * that
+rule1 * rule2 * rule3
+
+tile2 * this * or * that
+rule1 * rule2 * rule3
+
+tile3 * this * or * that
+rule1 * rule2 * rule3

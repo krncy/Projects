@@ -42,21 +42,20 @@
 			text-align: center;
 		}
 		
-		.grid-cell:hover:after {
+		.grid-cell:hover .tooltip {
+			display: block;
+		}
+
+		.tooltip {
 			position: absolute;
-			content: attr(rules);
-			display: inline-block;
 			left: 0px;
 			top: 0px;
 			padding: 5px;
 			background-color: black;
 			color: white;
+			white-space: pre-line; /* Allows new lines */
+			display: none;
 		}
-		
-		.grid-cell {
-			content: attr(stuff)
-		}
-	
     </style>
 	
 	<script>
@@ -195,6 +194,13 @@
 			}
 			//load tiles from last session
 			readCookies()
+			
+			document.querySelectorAll('.grid-cell').forEach(cell => {
+				const tooltip = document.createElement('div');
+				tooltip.classList.add('tooltip');
+				tooltip.innerHTML = cell.getAttribute('rules'); // Renders HTML, including <br>
+				cell.appendChild(tooltip);
+			});
 		}
 		
 		function readCookies() {
@@ -304,8 +310,9 @@
 		<div id="cell-4-7" class="grid-cell incomplete-cell">Nightmare Unique</div>
 		<div id="cell-4-8" class="grid-cell incomplete-cell" rules="I managed to whip it up so that when you hover it can show like this. <br> sdf">SPONDONICLES SPECIAL</div>
 		
-
-		
+	
+		<div id="cell-1" class="grid-cell incomplete-cell" rules="rule1 <br> rule2 <br> rule3">tile1 <br> this <br> or <br> that</div>
+		<div id="cell-2" class="grid-cell incomplete-cell" rules="rules 2">do something</div>		
     </div>
 	
 	<button onclick="screenshot()">Screenshot!</button>

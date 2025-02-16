@@ -18,5 +18,8 @@ if __name__ == "__main__":
     for idx, (tile, rule) in enumerate(bingo_data, start=1):
         tile = tile.replace("*", "<br>")
         rule = rule.replace("*", "<br>")
-        print(f"<div id=\"cell-{idx}\" class=\"grid-cell incomplete-cell\" rules=\"{rule}\">{tile}</div>")
+        if (rule == "%") :
+            print(f"<div id=\"cell-{idx}\" class=\"grid-cell incomplete-cell\">{tile}</div>")
+        else:
+            print(f"<div id=\"cell-{idx}\" class=\"grid-cell incomplete-cell rules\" rules=\"{rule}\">{tile}</div>")
     

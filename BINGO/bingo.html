@@ -169,6 +169,7 @@
 		  d.setTime(d.getTime() + (exdays*24*60*60*1000));
 		  let expires = "expires="+ d.toUTCString();
 		  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+		  
 		}
 		
 		function getCookie(cname) {
@@ -192,7 +193,6 @@
 			x = document.getElementsByClassName("grid-cell")
 			for (i = 0; i < x.length; i++) {			
 				x[i].addEventListener("click", function(e) {
-					console.log(x[i])
 					e = window.event || e; 
 					if ( this !== e.target ) return; 
 					handleCellClick(this)
@@ -207,7 +207,7 @@
 			//load tiles from last session
 			readCookies()
 			
-			document.querySelectorAll('.grid-cell').forEach(cell => {
+			document.querySelectorAll('.rules').forEach(cell => {
 				const tooltip = document.createElement('div');
 				tooltip.classList.add('tooltip');
 				tooltip.innerHTML = cell.getAttribute('rules'); // Renders HTML, including <br>
@@ -245,14 +245,13 @@
 				completedColour = getCookie("completedColour")
 			}
 			
-			for (var i = 0; i < 9; i++) {
-				for (var j = 0; j < 9; j++) {
-					cellID = "cell" + "-" + i + "-" + j
-					x = getCookie(cellID)
-					if (x == "in-progress-cell" || x == "completed-cell") {
-						document.getElementById(cellID).classList.remove("incomplete-cell")
-						document.getElementById(cellID).classList.add(x)
-					}
+			for (var i = 1; i <= 40; i++) {
+				cellID = "cell" + "-" + i
+				x = getCookie(cellID)
+				if (x == "in-progress-cell" || x == "completed-cell") {
+					document.getElementById(cellID).classList.remove("incomplete-cell")
+					document.getElementById(cellID).classList.add(x)
+				
 				}
 			}
 			

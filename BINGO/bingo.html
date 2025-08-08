@@ -21,7 +21,7 @@
 		
 		#grid {
             display: grid;
-            grid-template-columns: repeat(8, 175px); /* 8 columns, each 100px wide */
+            grid-template-columns: repeat(10, 175px); /* 8 columns, each 100px wide */
             grid-template-rows: repeat(5, 175px); /* 5 rows, each 100px tall */
             gap: 10px; /* 10px border/gap between cells */
             background-color: #f0f0f0; /* Background color for visual contrast */
@@ -262,7 +262,6 @@
 		}
 		
 		function screenshot() {
-			console.log("hi")
 			html2canvas(document.querySelector("#grid")).then(canvas => {
 				canvas.toBlob(function(blob) {
 					const item = new ClipboardItem({ "image/png": blob });
@@ -275,6 +274,7 @@
 				});
 			});
 		}
+	
 	</script>
 	
 </head>
@@ -284,47 +284,70 @@
 	<div id="title">Cone Cunts Bingo</div>
     <!-- Grid container -->
     <div id="grid">
+	
+		<!--10-->
+		<div id="cell-1" class="grid-cell incomplete-cell"></div>
+		<div id="cell-2" class="grid-cell incomplete-cell"></div>
+		<div id="cell-3" class="grid-cell incomplete-cell"></div>
+		<div id="cell-4" class="grid-cell incomplete-cell"></div>
+		<div id="cell-5" class="grid-cell incomplete-cell"></div>
+		<div id="cell-6" class="grid-cell incomplete-cell"></div>
+		<div id="cell-7" class="grid-cell incomplete-cell"></div>
+		<div id="cell-8" class="grid-cell incomplete-cell"></div>
+		<div id="cell-9" class="grid-cell incomplete-cell"></div>
+		<div id="cell-10" class="grid-cell incomplete-cell"></div>
 		
-		<div id="cell-1" class="grid-cell incomplete-cell">Barrows Unique</div>
-<div id="cell-2" class="grid-cell incomplete-cell">Dragon Pickaxe <br> or <br> Dragon2H</div>
-<div id="cell-3" class="grid-cell incomplete-cell">Flared Trousers <br> or <br> Ham Joint</div>
-<div id="cell-4" class="grid-cell incomplete-cell">Virtus Piece</div>
-<div id="cell-5" class="grid-cell incomplete-cell">Cox Scroll</div>
-<div id="cell-6" class="grid-cell incomplete-cell">Avernic Defender</div>
-<div id="cell-7" class="grid-cell incomplete-cell">GWD Hilt</div>
-<div id="cell-8" class="grid-cell incomplete-cell">Raid Megarare</div>
-<div id="cell-9" class="grid-cell incomplete-cell">Scurrius Spine</div>
-<div id="cell-10" class="grid-cell incomplete-cell rules" rules="Uniques include the following: <br> Tomes <br> outfit pieces <br> axe/harpoon <br> Fish Barrel/Tackle Box">Tempoross unqiue <br> or <br> Wintertodt unqiue</div>
-<div id="cell-11" class="grid-cell incomplete-cell rules" rules="Screenshot of completion screen on special worlds">Deafeat DS1 in under 19 minutes</div>
-<div id="cell-12" class="grid-cell incomplete-cell">Fang <br> or <br> Lightbearer</div>
-<div id="cell-13" class="grid-cell incomplete-cell rules" rules="Teleports/Scales do not count">Zulrah Unique</div>
-<div id="cell-14" class="grid-cell incomplete-cell">DT2 Ring <br> or <br> 3 x Ingots</div>
-<div id="cell-15" class="grid-cell incomplete-cell rules" rules="Amulet of averice will also count">Revenant Weapon</div>
-<div id="cell-16" class="grid-cell incomplete-cell rules" rules="Chompy/Skotizo do not count">Get a pet</div>
-<div id="cell-17" class="grid-cell incomplete-cell">Get a Godsword special recolour</div>
-<div id="cell-18" class="grid-cell incomplete-cell rules" rules="Any of the 3 boots">Medium Clue Boot drop</div>
-<div id="cell-19" class="grid-cell incomplete-cell rules" rules="Giantsoul Amulet does not count">Royal Giants Unique</div>
-<div id="cell-20" class="grid-cell incomplete-cell rules" rules="Any Totem or Ancient Crystal">Revenant Totem <br> or <br> Revenant Crystal</div>
-<div id="cell-21" class="grid-cell incomplete-cell rules" rules="Bandos or Armadyl Piece">GWD Armour Piece</div>
-<div id="cell-22" class="grid-cell incomplete-cell rules" rules="A piece from each boss, Can mix and match">Odium/Malediction Ward</div>
-<div id="cell-23" class="grid-cell incomplete-cell rules" rules="Ancestral,Justi,Masori">Raids Armour Piece</div>
-<div id="cell-24" class="grid-cell incomplete-cell rules" rules="Vorkaths Head does not count">Vorkath Unique</div>
-<div id="cell-25" class="grid-cell incomplete-cell">Gnome Cooking Unique</div>
-<div id="cell-26" class="grid-cell incomplete-cell rules" rules="3 people killing 1 penance queen doesn't count">Kill 3x Penance Queen</div>
-<div id="cell-27" class="grid-cell incomplete-cell rules" rules="Cudgel or 2 Dragon Medium Helms">Sarachnis Cudgel <br> or <br> 2 DMH</div>
-<div id="cell-28" class="grid-cell incomplete-cell rules" rules="Huasca Seeds do not count">Huey Unique</div>
-<div id="cell-29" class="grid-cell incomplete-cell rules" rules="3 Capes or 1 in under 26:30">3x Fire cape <br> or <br> Fire cape GM time</div>
-<div id="cell-30" class="grid-cell incomplete-cell rules" rules="Ring from each boss or complete voidwaker">Voidwaker <br> or <br> Wildy ring set</div>
-<div id="cell-31" class="grid-cell incomplete-cell">Nightmare Unique</div>
-<div id="cell-32" class="grid-cell incomplete-cell rules" rules="#conecunts <br> or <br> OSRS related <br> Tatoo">SPONDONICLES <br> SPECIAL</div>
-<div id="cell-33" class="grid-cell incomplete-cell">Perilous  Moons Unique</div>
-<div id="cell-34" class="grid-cell incomplete-cell rules" rules="1 of any Seed">Corrupt Guantlet Unique</div>
-<div id="cell-35" class="grid-cell incomplete-cell rules" rules="Ancient Icon / Venator Shard">Phantom Muspah Unqiue</div>
-<div id="cell-36" class="grid-cell incomplete-cell rules" rules="1/100 Drop rate or higher and can not be dropped by anything else in game">Slayer Boss Unique</div>
-<div id="cell-37" class="grid-cell incomplete-cell">Zalcano Unique</div>
-<div id="cell-38" class="grid-cell incomplete-cell">500 Invo Toa <br> (no Shadow / Tbow / ZCB / Fang)</div>
-<div id="cell-39" class="grid-cell incomplete-cell">Golden Tench Aerial Fishing</div>
-<div id="cell-40" class="grid-cell incomplete-cell">Champion Scroll</div>
+		<!--9-->
+		<div id="cell-11" class="grid-cell incomplete-cell"></div>
+		<div id="cell-12" class="grid-cell incomplete-cell"></div>
+		<div id="cell-13" class="grid-cell incomplete-cell"></div>
+		<div id="cell-14" class="grid-cell incomplete-cell"></div>
+		<div id="cell-15" class="grid-cell incomplete-cell"></div>
+		<div id="cell-16" class="grid-cell incomplete-cell"></div>
+		<div id="cell-17" class="grid-cell incomplete-cell"></div>
+		<div id="cell-18" class="grid-cell incomplete-cell"></div>
+		<div id="cell-19" class="grid-cell incomplete-cell"></div>
+		<div id="cell-20" class="grid-cell incomplete-cell"></div>
+	
+		<!--10-->
+		<div id="cell-21" class="grid-cell incomplete-cell"></div>
+		<div id="cell-22" class="grid-cell incomplete-cell"></div>
+		<div id="cell-23" class="grid-cell incomplete-cell"></div>
+		<div id="cell-24" class="grid-cell incomplete-cell"></div>
+		<div id="cell-25" class="grid-cell incomplete-cell"></div>
+		<div id="cell-26" class="grid-cell incomplete-cell"></div>
+		<div id="cell-27" class="grid-cell incomplete-cell"></div>
+		<div id="cell-28" class="grid-cell incomplete-cell"></div>
+		<div id="cell-29" class="grid-cell incomplete-cell"></div>
+		<div id="cell-30" class="grid-cell incomplete-cell"></div>
+
+		
+		<!--10-->
+		<div id="cell-31" class="grid-cell incomplete-cell"></div>
+		<div id="cell-32" class="grid-cell incomplete-cell"></div>
+		<div id="cell-33" class="grid-cell incomplete-cell"></div>
+		<div id="cell-34" class="grid-cell incomplete-cell"></div>
+		<div id="cell-35" class="grid-cell incomplete-cell"></div>
+		<div id="cell-36" class="grid-cell incomplete-cell"></div>
+		<div id="cell-37" class="grid-cell incomplete-cell"></div>
+		<div id="cell-38" class="grid-cell incomplete-cell"></div>
+		<div id="cell-39" class="grid-cell incomplete-cell"></div>
+		<div id="cell-40" class="grid-cell incomplete-cell"></div>
+
+		<!--10-->
+		<div id="cell-41" class="grid-cell incomplete-cell"></div>
+		<div id="cell-42" class="grid-cell incomplete-cell"></div>
+		<div id="cell-43" class="grid-cell incomplete-cell"></div>
+		<div id="cell-44" class="grid-cell incomplete-cell"></div>
+		<div id="cell-45" class="grid-cell incomplete-cell"></div>
+		<div id="cell-46" class="grid-cell incomplete-cell"></div>
+		<div id="cell-47" class="grid-cell incomplete-cell"></div>
+		<div id="cell-48" class="grid-cell incomplete-cell"></div>
+		<div id="cell-49" class="grid-cell incomplete-cell"></div>
+		<div id="cell-50" class="grid-cell incomplete-cell"></div>
+		
+	
+		
 	</div>
 	
 	<button onclick="screenshot()">Screenshot!</button>

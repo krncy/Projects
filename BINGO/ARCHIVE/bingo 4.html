@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cone cunts Bingo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
+	<script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+	
+	<style>
+        /* Container for the grid */
+        #content {
+			position: absolute
+		}
+		#title {
+			font-size: 50px; /* Font size for any text inside cells */
+			font-family: Helvetica;
+			text-align: center;
+		}
+		
+		#grid {
+            display: grid;
+            grid-template-columns: repeat(10, 175px); /* 8 columns, each 100px wide */
+            grid-template-rows: repeat(5, 175px); /* 5 rows, each 100px tall */
+            gap: 10px; /* 10px border/gap between cells */
+            background-color: #f0f0f0; /* Background color for visual contrast */
+            padding: 10px; /* Padding around the whole grid */
+        }
+		
+		
+
+        /* Style for each cell */
+        .grid-cell {
+            background-color: White; /* Example background color for the cells */
+			position:relative;
+            border: 2px solid #333; /* Border around each cell */
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
+            color: #000000; /* Text color */
+            font-size: 20px; /* Font size for any text inside cells */
+			font-family: Helvetica;
+			text-align: center;
+			
+        }
+	
+		.rules:hover .tooltip {
+			display: block;
+		}
+
+		.tooltip {
+			background-color: rgba(211, 211, 211, 0.9); /* Light gray with slight opacity */
+			color: black;
+			white-space: nowrap; /* Prevent text from wrapping to the next line */
+			display: none;
+			position: absolute;
+			top: 100%; /* Align tooltip to the bottom of the grid cell */
+			left: 50%; /* Center the tooltip horizontally */
+			transform: translateX(-50%); /* Shift it back by half its width to center it */
+			margin-top: 5px; /* Space between the grid cell and the tooltip */
+			border-radius: 3px; /* Optional: Adds rounded corners */
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: Adds a subtle shadow */
+			z-index: 1000;
+			min-width: 0; /* Prevents width from being constrained */
+			padding: 5px 10px; /* Optional: Adjust padding for a nicer look */
+			width: max-content; /* Tooltip width is determined by its content */
+		}
+
+
+    </style>
+	
+	<script>
+		textColour = "#000000"
+		defaultColour = "#ffffff"
+		incompleteColour = "#eb921e"
+		completedColour = "#24d44d"
+		
+		function rgbToHex(col) {
+			if(col.charAt(0)=='r')
+			{
+				col=col.replace('rgb(','').replace(')','').split(',');
+				var r=parseInt(col[0], 10).toString(16);
+				var g=parseInt(col[1], 10).toString(16);
+				var b=parseInt(col[2], 10).toString(16);
+				r=r.length==1?'0'+r:r; g=g.length==1?'0'+g:g; b=b.length==1?'0'+b:b;
+				var colHex='#'+r+g+b;
+				return colHex;
+			}
+		}
+		
+		function handleCellClick(element) {
+            // change incompleted cell to in progress cell
+			if (element.classList.contains("incomplete-cell")) {
+				element.classList.remove("incomplete-cell")
+				element.classList.add("in-progress-cell")
+				element.style.backgroundColor = incompleteColour;
+				
+				setCookie(element.id, "in-progress-cell", 365)
+			} 
+			// change in progress cell to completed cell
+			else if (element.classList.contains("in-progress-cell")) {
+				element.classList.remove("in-progress-cell")
+				element.classList.add("completed-cell")
+				element.style.backgroundColor = completedColour;
+				
+				setCookie(element.id, "completed-cell", 365)
+			} 
+			// change completed cell to incompleted cell
+			else if (element.classList.contains("completed-cell")) {
+				element.classList.remove("completed-cell")
+				element.classList.add("incomplete-cell")
+				element.style.backgroundColor = defaultColour; 
+				
+				setCookie(element.id, "", 365)
+			}
+        }
+		
+		function handleTextClick(element) {
+			element.style.backgroundColor = "#3133b0";
+		}
+		
+		function updateTextColour(colour) {
+			textColour = colour
+			
+			setCookie("textColour", textColour + "", 365)
+			
+			x = document.getElementsByClassName("grid-cell")
+			for (var i = 0; i < x.length; i++) {
+				x[i].style.color = textColour
+			}
+		}
+		
+		function updateDefaultColour(colour) {
+			defaultColour = colour
+			
+			setCookie("defaultColour", defaultColour + "", 365)
+			
+			x = document.getElementsByClassName("incomplete-cell")
+			for (var i = 0; i < x.length; i++) {
+				x[i].style.backgroundColor = defaultColour
+			}
+		}
+		
+		function updateInProgressColour(colour) {
+			incompleteColour = colour
+			
+			setCookie("incompleteColour", incompleteColour + "", 365)
+			
+			x = document.getElementsByClassName("in-progress-cell")
+			for (var i = 0; i < x.length; i++) {
+				x[i].style.backgroundColor = incompleteColour
+			}
+		}
+		
+		function updateCompletedColour(colour) {
+			completedColour = colour
+			
+			setCookie("completedColour", completedColour + "", 365)
+			
+			x = document.getElementsByClassName("completed-cell")
+			for (var i = 0; i < x.length; i++) {
+				x[i].style.backgroundColor = completedColour
+			}
+		}
+		
+		function setCookie(cname, cvalue, exdays) {
+		  const d = new Date();
+		  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+		  let expires = "expires="+ d.toUTCString();
+		  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+		  
+		}
+		
+		function getCookie(cname) {
+			let name = cname + "=";
+			let decodedCookie = decodeURIComponent(document.cookie);
+			let ca = decodedCookie.split(';');
+			for(let i = 0; i <ca.length; i++) {
+				let c = ca[i];
+				while (c.charAt(0) == ' ') {
+					c = c.substring(1);
+				}
+				if (c.indexOf(name) == 0) {
+					return c.substring(name.length, c.length);
+				}
+			}
+			return "";
+		}
+	
+		function load() {
+			//add onclick events
+			x = document.getElementsByClassName("grid-cell")
+			for (i = 0; i < x.length; i++) {			
+				x[i].addEventListener("click", function(e) {
+					e = window.event || e; 
+					if ( this !== e.target ) return; 
+					handleCellClick(this)
+					
+				});
+			}
+			
+			x = document.getElementsByClassName("text-description")
+			for (i = 0; i < x.length; i++) {
+				x[i].onclick = function() { handleTextClick(this) };
+			}
+			//load tiles from last session
+			readCookies()
+			
+			document.querySelectorAll('.rules').forEach(cell => {
+				const tooltip = document.createElement('div');
+				tooltip.classList.add('tooltip');
+				tooltip.innerHTML = cell.getAttribute('rules'); // Renders HTML, including <br>
+				cell.appendChild(tooltip);
+			});
+		}
+		
+		function readCookies() {
+			
+			//read text colour cookie
+			if (getCookie("textColour") == "") {
+				setCookie("textColour", "#000000", 365)
+			} else {
+				textColour = getCookie("textColour")
+			}
+			
+			//read default cell colour cookie
+			if (getCookie("defaultColour") == "") {
+				setCookie("defaultColour", "#f0f0f0", 365)
+			} else {
+				defaultColour = getCookie("defaultColour")
+			}
+			
+			//read Incomplete cell colour cookie
+			if (getCookie("incompleteColour") == "") {
+				setCookie("incompleteColour", "#eb921e", 365)
+			} else {
+				incompleteColour = getCookie("incompleteColour")
+			}
+			
+			//read completed cell colour cookie
+			if (getCookie("completedColour") == "") {
+				setCookie("completedColour", "#24d44d", 365)
+			} else {
+				completedColour = getCookie("completedColour")
+			}
+			
+			for (var i = 1; i <= 50; i++) {
+				cellID = "cell" + "-" + i
+				x = getCookie(cellID)
+				if (x == "in-progress-cell" || x == "completed-cell") {
+					document.getElementById(cellID).classList.remove("incomplete-cell")
+					document.getElementById(cellID).classList.add(x)
+				
+				}
+			}
+			
+			updateTextColour(textColour)
+			updateDefaultColour(defaultColour)
+			updateInProgressColour(incompleteColour)
+			updateCompletedColour(completedColour)
+		}
+		
+		function screenshot() {
+			html2canvas(document.querySelector("#grid")).then(canvas => {
+				canvas.toBlob(function(blob) {
+					const item = new ClipboardItem({ "image/png": blob });
+					navigator.clipboard.write([item]).then(function() {
+						alert('Screenshot copied to clipboard!');
+					}, function(error) {
+						alert('Unable to copy screenshot to clipboard.');
+						console.error('Error copying to clipboard: ', error);
+					});
+				});
+			});
+		}
+	
+	</script>
+	
+</head>
+<body onload="load()">
+
+	<div id="content">
+	<div id="title">Cone Cunts Bingo</div>
+    <!-- Grid container -->
+    <div id="grid">
+	
+<!--10-->
+		<div id="cell-1" class="grid-cell incomplete-cell">Screenshot of your whole team at gemstone crab</div>
+		<div id="cell-2" class="grid-cell incomplete-cell">Sarachnis Cudgel</div>
+		<div id="cell-3" class="grid-cell incomplete-cell">Mask of Ranul</div>
+		<div id="cell-4" class="grid-cell incomplete-cell">Champion Scroll</div>
+		<div id="cell-5" class="grid-cell incomplete-cell rules" rules="No Skotizo</br> No Chaos Elemental</br> No Chompy</br> No AFK alt skilling pets">Pet</div>
+		<div id="cell-6" class="grid-cell incomplete-cell">Pet </br> Chaos Elemental</div>
+		<div id="cell-7" class="grid-cell incomplete-cell">Jar</div>
+		<div id="cell-8" class="grid-cell incomplete-cell">Steel Ring</div>
+		<div id="cell-9" class="grid-cell incomplete-cell">Scurrius Spine</div>
+		<div id="cell-10" class="grid-cell incomplete-cell rules" rules="Each player on your team </br>must do a high gamble"h>Barbarian Assault</div>
+		
+		<!--9-->
+		<div id="cell-11" class="grid-cell incomplete-cell rules" rules="No burnt pages">Wintertodt </br>Unique</div>
+		<div id="cell-12" class="grid-cell incomplete-cell rules" rules="No spirit flakes </br> No soaked pages">Tempoross</br> Unique</div>
+		<div id="cell-13" class="grid-cell incomplete-cell">Zalcano </br>Unique</div>
+		<div id="cell-14" class="grid-cell incomplete-cell rules" rules="Dye </br> Lantern </br> Pet </br> Needle">GOTR </br>Unique</div>
+		<div id="cell-15" class="grid-cell incomplete-cell rules" rules="Zaryte vambraces count as armour">GWD </br> Armour Piece</div>
+		<div id="cell-16" class="grid-cell incomplete-cell rules" rules="Hilt is a weapon </br> Nihil Horn is a weapon">GWD </br> Weapon</div>
+		<div id="cell-17" class="grid-cell incomplete-cell rules" rules="3 'ring' drops between team members">DT2 </br> Vestige</div>
+		<div id="cell-18" class="grid-cell incomplete-cell">DT2 </br>Axe Piece</br> or </br> Virtus Piece</div>
+		<div id="cell-19" class="grid-cell incomplete-cell rules" rules="No ring of life">3 Rings from </br> Dagganoth Kings</div>
+		<div id="cell-20" class="grid-cell incomplete-cell">Dragon Pickaxe </br> or </br> Dragon Chainbody</div>
+	
+		<!--10-->
+		<div id="cell-21" class="grid-cell incomplete-cell rules" rules="Tbow </br> Elder maul </br> Kodai </br> Scythe </br>Shadow">Any raid Mega</div>
+		<div id="cell-22" class="grid-cell incomplete-cell">COX </br> Twisted Kit</div>
+		<div id="cell-23" class="grid-cell incomplete-cell">COX </br> Ancestral Piece</div>
+		<div id="cell-24" class="grid-cell incomplete-cell">COX </br> Arcane Scroll </br> or </br> Dex Scroll</div>
+		<div id="cell-25" class="grid-cell incomplete-cell">TOB </br> Justiciar Piece</div>
+		<div id="cell-26" class="grid-cell incomplete-cell">TOB </br> Avernic Defender</div>
+		<div id="cell-27" class="grid-cell incomplete-cell">TOA </br> Masori Piece</div>
+		<div id="cell-28" class="grid-cell incomplete-cell">TOA </br> Fang </br> or </br> Lightbearer</div>
+		<div id="cell-29" class="grid-cell incomplete-cell">500k Easy Clue</div>
+		<div id="cell-30" class="grid-cell incomplete-cell">Any Boots From Medium Clues</div>
+		
+		<!--10-->
+		<div id="cell-31" class="grid-cell incomplete-cell rules" rules="No Vorkath Head">Vorkath </br> Unique</div>
+		<div id="cell-32" class="grid-cell incomplete-cell rules" rules="No Scales </br> No Teleport">Zulrah </br>Unique</div>
+		<div id="cell-33" class="grid-cell incomplete-cell rules" rules="No Crystal Weapon Seed">Gauntlet </br> Unique</div>
+		<div id="cell-34" class="grid-cell incomplete-cell rules" rules="Venator Shard </br> Muphin">Phantom Muspah</br>Unique</div>
+		<div id="cell-35" class="grid-cell incomplete-cell rules" rules="No Waystone </br> No Demon Tear">Doom of Makhaiotl </br> Unique</div>
+		<div id="cell-36" class="grid-cell incomplete-cell rules" rules="Oathplate Piece </br> Horn </br> Pet">Yama </br> Unique</div>
+		<div id="cell-37" class="grid-cell incomplete-cell rules" rules="No Nihil Shard">Nex </br> Unique</div>
+		<div id="cell-38" class="grid-cell incomplete-cell rules" rules="No Splinters </br> No Quiver">Colosseum </br> Unique</div>
+		<div id="cell-39" class="grid-cell incomplete-cell">Corporeal Beast Unique</div>		
+		<div id="cell-40" class="grid-cell incomplete-cell rules" rules="No Sleepy Tablet">Nightmare </br> Unique</div>
+
+		<!--10-->
+		<div id="cell-41" class="grid-cell incomplete-cell">5 x LMS Wins</div>
+		<div id="cell-42" class="grid-cell incomplete-cell">Elder Chaos piece</div>
+		<div id="cell-43" class="grid-cell incomplete-cell">Any Wilderness Ring</div>
+		<div id="cell-44" class="grid-cell incomplete-cell">Any Voidwaker Piece</div>
+		<div id="cell-45" class="grid-cell incomplete-cell rules" rules="Can mix and match </br> but need a helmet, body, legs, and weapon">Complete a Barrows/Moon Set</div>
+		<div id="cell-46" class="grid-cell incomplete-cell">Zenyte </br> Shard</div>
+		<div id="cell-47" class="grid-cell incomplete-cell">Tormented </br> Synapse</div>
+		<div id="cell-48" class="grid-cell incomplete-cell rules" rules="Limbs </br> Lump </br> Visage">Rune Dragon Unique </div>
+		<div id="cell-49" class="grid-cell incomplete-cell rules" rules="Weapon </br> Amulet </br> Ancient Relic </br> Ancient Effigy </br> Ancient Medallion">Revenants</div>
+		<div id="cell-50" class="grid-cell incomplete-cell rules" rules="Helmet </br> Platebody </br> Platelegs">Obsidian Armour</div>
+		
+	
+	</div>
+	
+	<button onclick="screenshot()">Screenshot!</button>
+
+	<div>
+		Text colour: <input id="colour-picker-text" type="text" value="#000000" onchange="updateTextColour(this.value)" data-coloris>
+		</br>
+		Incomplete cell colour: <input id="colour-picker-incomplete" type="text" value="#f0f0f0" onchange="updateDefaultColour(this.value)" data-coloris>
+		</br>
+		In progress cell colour: <input id="colour-picker-inprogress" type="text" value="#eb921e" onchange="updateInProgressColour(this.value)" data-coloris>
+		</br> 		
+		Completed cell colour: <input id="colour-picker-completed"type="text" value="#24d44d" onchange="updateCompletedColour(this.value)" data-coloris>
+	</div>
+	
+</body>
+</html>

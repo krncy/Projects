@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cone cunts Bingo</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
+	<script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+	
+	<style>
+        /* Container for the grid */
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(8, 200px); /* 4 columns, each 100px wide */
+            grid-template-rows: repeat(8, 200px); /* 4 rows, each 100px tall */
+            gap: 10px; /* 10px border/gap between cells */
+            background-color: #f0f0f0; /* Background color for visual contrast */
+            padding: 10px; /* Padding around the whole grid */
+        }
+
+        /* Style for each cell */
+        .grid-cell {
+            background-color: White; /* Example background color for the cells */
+            border: 2px solid #333; /* Border around each cell */
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
+            color: #000000; /* Text color */
+            font-size: 20px; /* Font size for any text inside cells */
+			font-family: Helvetica;
+			text-align: center;
+			
+        }
+		#content {
+			position: absolute
+		}
+		#title {
+			font-size: 50px; /* Font size for any text inside cells */
+			font-family: Helvetica;
+			text-align: center;
+		}
+	
+    </style>
+	
+	<script>
+		textColour = "#000000"
+		defaultColour = "#ffffff"
+		incompleteColour = "#eb921e"
+		completedColour = "#24d44d"
+		
+		function rgbToHex(col) {
+			if(col.charAt(0)=='r')
+			{
+				col=col.replace('rgb(','').replace(')','').split(',');
+				var r=parseInt(col[0], 10).toString(16);
+				var g=parseInt(col[1], 10).toString(16);
+				var b=parseInt(col[2], 10).toString(16);
+				r=r.length==1?'0'+r:r; g=g.length==1?'0'+g:g; b=b.length==1?'0'+b:b;
+				var colHex='#'+r+g+b;
+				return colHex;
+			}
+		}
+		
+		function handleCellClick(element) {
+            // change incompleted cell to in progress cell
+			if (element.classList.contains("incomplete-cell")) {
+				element.classList.remove("incomplete-cell")
+				element.classList.add("in-progress-cell")
+				element.style.backgroundColor = incompleteColour;
+				
+				setCookie(element.id, "in-progress-cell", 365)
+			} 
+			// change in progress cell to completed cell
+			else if (element.classList.contains("in-progress-cell")) {
+				element.classList.remove("in-progress-cell")
+				element.classList.add("completed-cell")
+				element.style.backgroundColor = completedColour;
+				
+				setCookie(element.id, "completed-cell", 365)
+			} 
+			// change completed cell to incompleted cell
+			else if (element.classList.contains("completed-cell")) {
+				element.classList.remove("completed-cell")
+				element.classList.add("incomplete-cell")
+				element.style.backgroundColor = defaultColour; 
+				
+				setCookie(element.id, "", 365)
+			}
+        }
+		
+		function handleTextClick(element) {
+			element.style.backgroundColor = "#3133b0";
+		}
+		
+		function updateTextColour(colour) {
+			textColour = colour
+			
+			setCookie("textColour", textColour + "", 365)
+			
+			x = document.getElementsByClassName("grid-cell")
+			for (var i = 0; i < x.length; i++) {
+				x[i].style.color = textColour
+			}
+		}
+		
+		function updateDefaultColour(colour) {
+			defaultColour = colour
+			
+			setCookie("defaultColour", defaultColour + "", 365)
+			
+			x = document.getElementsByClassName("incomplete-cell")
+			for (var i = 0; i < x.length; i++) {
+				x[i].style.backgroundColor = defaultColour
+			}
+		}
+		
+		function updateInProgressColour(colour) {
+			incompleteColour = colour
+			
+			setCookie("incompleteColour", incompleteColour + "", 365)
+			
+			x = document.getElementsByClassName("in-progress-cell")
+			for (var i = 0; i < x.length; i++) {
+				x[i].style.backgroundColor = incompleteColour
+			}
+		}
+		
+		function updateCompletedColour(colour) {
+			completedColour = colour
+			
+			setCookie("completedColour", completedColour + "", 365)
+			
+			x = document.getElementsByClassName("completed-cell")
+			for (var i = 0; i < x.length; i++) {
+				x[i].style.backgroundColor = completedColour
+			}
+		}
+		
+		function setCookie(cname, cvalue, exdays) {
+		  const d = new Date();
+		  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+		  let expires = "expires="+ d.toUTCString();
+		  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+		}
+		
+		function getCookie(cname) {
+			let name = cname + "=";
+			let decodedCookie = decodeURIComponent(document.cookie);
+			let ca = decodedCookie.split(';');
+			for(let i = 0; i <ca.length; i++) {
+				let c = ca[i];
+				while (c.charAt(0) == ' ') {
+					c = c.substring(1);
+				}
+				if (c.indexOf(name) == 0) {
+					return c.substring(name.length, c.length);
+				}
+			}
+			return "";
+		}
+	
+		function load() {
+			//add onclick events
+			x = document.getElementsByClassName("grid-cell")
+			for (i = 0; i < x.length; i++) {			
+				x[i].addEventListener("click", function(e) {
+					console.log(x[i])
+					e = window.event || e; 
+					if ( this !== e.target ) return; 
+					handleCellClick(this)
+					
+				});
+			}
+			
+			x = document.getElementsByClassName("text-description")
+			for (i = 0; i < x.length; i++) {
+				x[i].onclick = function() { handleTextClick(this) };
+			}
+			//load tiles from last session
+			readCookies()
+		}
+		
+		function readCookies() {
+			
+			//read text colour cookie
+			if (getCookie("textColour") == "") {
+				setCookie("textColour", "#000000", 365)
+			} else {
+				textColour = getCookie("textColour")
+			}
+			
+			//read default cell colour cookie
+			if (getCookie("defaultColour") == "") {
+				setCookie("defaultColour", "#f0f0f0", 365)
+			} else {
+				defaultColour = getCookie("defaultColour")
+			}
+			
+			//read Incomplete cell colour cookie
+			if (getCookie("incompleteColour") == "") {
+				setCookie("incompleteColour", "#eb921e", 365)
+			} else {
+				incompleteColour = getCookie("incompleteColour")
+			}
+			
+			//read completed cell colour cookie
+			if (getCookie("completedColour") == "") {
+				setCookie("completedColour", "#24d44d", 365)
+			} else {
+				completedColour = getCookie("completedColour")
+			}
+			
+			for (var i = 0; i < 9; i++) {
+				for (var j = 0; j < 9; j++) {
+					cellID = "cell" + "-" + i + "-" + j
+					x = getCookie(cellID)
+					if (x == "in-progress-cell" || x == "completed-cell") {
+						document.getElementById(cellID).classList.remove("incomplete-cell")
+						document.getElementById(cellID).classList.add(x)
+					}
+				}
+			}
+			
+			updateTextColour(textColour)
+			updateDefaultColour(defaultColour)
+			updateInProgressColour(incompleteColour)
+			updateCompletedColour(completedColour)
+		}
+		
+		function screenshot() {
+			console.log("hi")
+			html2canvas(document.querySelector("#grid")).then(canvas => {
+				canvas.toBlob(function(blob) {
+					const item = new ClipboardItem({ "image/png": blob });
+					navigator.clipboard.write([item]).then(function() {
+						alert('Screenshot copied to clipboard!');
+					}, function(error) {
+						alert('Unable to copy screenshot to clipboard.');
+						console.error('Error copying to clipboard: ', error);
+					});
+				});
+			});
+		}
+	</script>
+	
+</head>
+<body onload="load()">
+
+	<div id="content">
+	<div id="title">Cone Cunts Bingo</div>
+    <!-- Grid container -->
+    <div id="grid">
+	
+		<!-- High Tier -->
+		<div id="cell-2-4" class="grid-cell incomplete-cell">Raids</br></br>Prayer scrolls 1 2 3</br>Lightbearer 2</br>Avernic 4</br></br>Bonus 5</div>
+        <div id="cell-4-6" class="grid-cell incomplete-cell">Nex</br></br>Unique drop 5</br>100 Nihil shards 2</br></br>Bonus 5</div>
+        <div id="cell-4-7" class="grid-cell incomplete-cell">Nightmare</br></br>Weapon 5</br>Armour 5 </br></br>Bonus 5</div>
+		<div id="cell-4-8" class="grid-cell incomplete-cell">Corp</br></br>Unique 2</br>Sigil 5</br></br>Bonus 3</div>
+		<div id="cell-8-7" class="grid-cell incomplete-cell">Get Good</br></br> Infernal Cape 2</br>Dizana's Quiver 2 </br>CLOG 5</br></br>Bonus 5</div>
+		
+		<!-- Bosses -->
+		<div id="cell-1-3" class="grid-cell incomplete-cell">Wards</br></br>Malediction 3</br>Odium 3</br>Elidinis 3</br></br>Bonus 5</div>
+        <div id="cell-2-1" class="grid-cell incomplete-cell">Gauntlet</br></br> Enh Cry Wep 4</br>5 Armour seeds 4</br></br>Bonus 5</div>
+        <div id="cell-3-2" class="grid-cell incomplete-cell">Sarachnis</br></br> Cudgel 2</br>Giant Egg Sac 1</br></br>Bonus 2</div>
+        <div id="cell-3-3" class="grid-cell incomplete-cell">Muspah</br></br> Venator Bow</br>5 shards 5</br></br>Bonus 5</div>
+        <div id="cell-3-4" class="grid-cell incomplete-cell">Dagganoth Kings</br></br>LOTR</br>(5 rings)</br></br>4</div>
+        <div id="cell-3-6" class="grid-cell incomplete-cell">Zulrah</br></br> Tanzanite Fang 3</br>Magic Fang 3</br></br>Bonus 5</div>
+        <div id="cell-5-3" class="grid-cell incomplete-cell">Cerberus</br></br>Prims 3</br>Eternal 4</br>Pegasian 5</br></br>Bonus 5</div>
+        <div id="cell-5-4" class="grid-cell incomplete-cell">Giants</br></br> Bryo Ess 2</br>Obor Club 2</br></br>Bonus 6</div>
+		<div id="cell-5-7" class="grid-cell incomplete-cell">Voidwaker</br></br>Blade 2</br>Hilt 2</br>Gem 2</br></br>Bonus 4</div>
+		<div id="cell-6-1" class="grid-cell incomplete-cell">Boss Jar</br></br>Any source 5 </br>(once per person)</br></br>Bonus 6</div>
+        <div id="cell-6-8" class="grid-cell incomplete-cell">DT2</br></br> Uniques 2</br>(up to 5)</br></br>Bonus 5</div>
+		<div id="cell-7-7" class="grid-cell incomplete-cell">GWD </br></br>Bandos Unique 1</br>Saradomin Unique 1</br>Armadyl Unique 1</br>Zamorak Unique 1</br></br>Bonus 5</div>
+		<div id="cell-1-4" class="grid-cell incomplete-cell">Long bone</br></br>Scurries 1</br>Mole 1</br>Mutadile 2</br></br>Bonus 5</div>
+        <div id="cell-6-2" class="grid-cell incomplete-cell">Barrows & Perilous Moons sets</br></br>Barrows 5</br>Moons 5</br></br>Bonus 5</div>
+		<div id="cell-4-1" class="grid-cell incomplete-cell">Abyssal</br></br> Tentacle Whip 2</br> Dagger 3</br></br>Bonus 5</div>
+        
+		<!-- Mobs -->
+		<div id="cell-8-6" class="grid-cell incomplete-cell">Visage drop</br></br>Dragonic 5</br>Wyvern 5</br>Skeletal 5</br></br>Bonus 5</div>
+		<div id="cell-5-6" class="grid-cell incomplete-cell">Helmet</br></br>Basilisk Jaw 3</br>Serpentine 3</br></br>Bonus 5</div>
+		<div id="cell-5-2" class="grid-cell incomplete-cell">Shaman</br></br>Dragon Warhammer 5 </br>Rune Warhammer .5</br></br> Bonus 5</div>
+		<div id="cell-1-2" class="grid-cell incomplete-cell">Onyx</br></br> Cut 5</br>Uncut 2</br>(from any drop)</br></br>Bonus 3</div>
+        <div id="cell-3-8" class="grid-cell incomplete-cell">Mithril Dragons</br></br> 4 Chwed Bones 2</br>DFH 4</br></br>Bonus 4</div>
+		<div id="cell-6-4" class="grid-cell incomplete-cell">Tzhaar</br></br>2 Unique drops 4</br>Ornament kit 2</br></br>Bonus 4</div>
+		<div id="cell-2-7" class="grid-cell incomplete-cell">Dragon Tools</br></br>Axe 1</br> Pickaxe 2</br>Harpoon 3</br></br>Bonus 4</div>
+		<div id="cell-2-8" class="grid-cell incomplete-cell">Get W0bbly</br></br> Med Helm 1, Chain 3</br> Legs 1, Boots 1</br>Shield 2, D Long 1</br>Ornamanet Kit 3</br></br>Bonus 3</div>
+		
+		<!-- Slayer -->
+		<div id="cell-2-2" class="grid-cell incomplete-cell">Zenyte</br></br> Shard 2</br>(up to 3)</br>Ornament kit 3</br></br>Bonus 3</div>
+        <div id="cell-2-6" class="grid-cell incomplete-cell">Heads</br></br> KBD 1</br>Vorkath 1</br>Hydra 1</br>KQ 3</br></br>Bonus 4</div>
+        <div id="cell-8-4" class="grid-cell incomplete-cell">Superiors</br></br> Imbued Heart 6 </br>Eternal Gem 6</br></br>Bonus 5</div>
+        <div id="cell-8-5" class="grid-cell incomplete-cell">Taxidermy</br></br>Crawling Hand</br> Cockatrice</br> Basilisk, Kurask</br> Abby Demon</br>(1 each)</br></br>Bonus 5</div>
+		
+		<!-- Clues -->
+		<div id="cell-7-3" class="grid-cell incomplete-cell">Clues</br></br> 1m+ Clue Scroll 2 </br> 2m+ Clue Scroll 3</br></br>Bonus 3</div>
+        <div id="cell-4-2" class="grid-cell incomplete-cell">Beginner clues</br></br> Sandwich Lady </br> Hat 2</br>Top 2</br>Bottom 2</br></br>Bonus 4</div>
+        <div id="cell-4-3" class="grid-cell incomplete-cell">Easy clues</br></br> Ham Joint 2</br>Flared Trousers 2</br>Cape 2</br></br>Bonus 4</div>
+        <div id="cell-4-4" class="grid-cell incomplete-cell">Medium Clues</br></br> Holy Sandals 3 </br> Wizard Boots 3</br> Ranger Boots 3</br></br>Bonus 4</div>
+        <div id="cell-4-5" class="grid-cell incomplete-cell">Hard Clues</br></br> Robin Hood Hat 3</br></br>3 items aligned to the same god 3</br></br>Bonus 1</div>
+		<div id="cell-1-6" class="grid-cell incomplete-cell">Mimic</br></br>Fight 4</br>(once per person)</br></br>Bonus 6</div>
+		
+		<!-- Skilling -->
+		<div id="cell-2-5" class="grid-cell incomplete-cell">GOTR</br></br> Lantern 4</br>Ring of Elements 3</br></br>Bonus 3</div>
+		<div id="cell-3-7" class="grid-cell incomplete-cell">Tome</br></br> Fire 3</br> Water 3</br>Earth 6</br></br>Bonus 4</div>
+		<div id="cell-2-3" class="grid-cell incomplete-cell">Sepulchre</br></br>3 Lockpicks 3 </br>Ring of Endurance 4</br></br>Bonus 3</div>
+		<div id="cell-5-1" class="grid-cell incomplete-cell">Desert</br></br> Pharaohs Sceptre 3 </br> 24 Pyramid top 2</br></br>Bonus 2</div>
+		<div id="cell-5-5" class="grid-cell incomplete-cell">Fishing</br></br> Big Bass 1</br>Big Swordfish 2</br>Big Shark 3</br>Golden Tench 3</br></br>Bonus 3</div>
+        <div id="cell-7-2" class="grid-cell incomplete-cell">Skilling</br></br> 2m Prayer xp 4</br>420k Herblore xp 2</br></br>Bonus 0</div>
+		<div id="cell-6-7" class="grid-cell incomplete-cell">Skilling Pets</br></br> Acorn 3</br>Eye 3</br>Whistle 4</br></br>Bonus 4</div>
+		
+		<!-- Wilderness -->
+		<div id="cell-8-2" class="grid-cell incomplete-cell">Elder Chaos Druid</br></br>Elder Pieces 3 </br>(up to 3)</br>Zamorak Robe Set 2 </br></br>Bonus 2</div>
+		<div id="cell-3-1" class="grid-cell incomplete-cell">Glory</br></br> Eternal glory 6</br></br>Skulled 1m </br>Fortis Salute 2 </br></br>Bonus 4</div>
+		<div id="cell-1-5" class="grid-cell incomplete-cell">Revenants</br></br>Weapon 5</br>Upgrade 3</br>2m+ Totem 2</br></br>Bonus 3</div>
+		<div id="cell-3-5" class="grid-cell incomplete-cell">Wilderness bosses</br></br> LOTR<br/>(3 rings 1 each)</br></br>Bonus 3</div>
+        <div id="cell-6-5" class="grid-cell incomplete-cell">LMS</br></br>4 wins 5</br>Unique 3</br></br>Bonus 3</div>
+		<div id="cell-7-4" class="grid-cell incomplete-cell">PKing (R)</br></br>Bingo Member 4</br>1m Loot Key 1</br>100k 3 Man 1</br></br>Bonus 5</div>
+		 
+		<!-- Team/Clan -->
+		<div id="cell-8-8" class="grid-cell incomplete-cell">Clannies</br></br> Win BOTW (group) 5</br>Win SOTW 5</br></br>Bonus 5</div>
+		<div id="cell-7-1" class="grid-cell incomplete-cell">Team</br></br>4 Man Screenshot 4</br>5 Man Screenshot 5</br>Full team PK 5</br></br>Bonus 5</div>
+        <div id="cell-8-1" class="grid-cell incomplete-cell">Win a 3v3</br></br>Castle Wars 4</br>Clan Wars 4</br>Soul Wars 4</br></br>Bonus 3</div>
+        <div id="cell-7-6" class="grid-cell incomplete-cell">Gnomeball</br></br>Full team game</br> 4 goals each</br></br>5</div>
+		
+		<!-- Other -->
+        <div id="cell-1-1" class="grid-cell incomplete-cell">Keys</br></br>Dusk 2</br>Daggonhai 2</br>Dragonstone 2</br></br>Bonus 4</div>
+        <div id="cell-1-7" class="grid-cell incomplete-cell">Gambles</br></br>4 Fire Capes 4</br>4 BA High Tier 4</br></br>Bonus 4</div>
+		<div id="cell-1-8" class="grid-cell incomplete-cell">Pets</br></br>Bossing 5</br> Skilling 5</br> Other 5</br></br>Bonus 10</div>
+		<div id="cell-8-3" class="grid-cell incomplete-cell">Chompys</br></br> 1k Kills 3</br> Pet 1</br></br>Bonus 1</div>
+		<div id="cell-6-3" class="grid-cell incomplete-cell">Gnome Resturant </br></br>Scarf 3</br>Goggles 3</br></br>Bonus 3</div>
+        <div id="cell-7-5" class="grid-cell incomplete-cell">HAM</br></br> Pickpocket full set</br></br>10</div>
+		<div id="cell-5-8" class="grid-cell incomplete-cell">Champion scroll</br></br>Any source 5</br>(once per person)</br></br>Bonus 6</div>
+        <div id="cell-6-6" class="grid-cell incomplete-cell">Priff</br></br>1:30 Agility course 1</br> Crystal Grail 2</br>Zalcano unique 3</br></br>Bonus 5</div> 
+        <div id="cell-7-8" class="grid-cell incomplete-cell">Combination Staves</br></br>Mist, Mud</br>Lava, Smoke</br>Dust, Steam</br>1 each</br></br>Bonus 4</div>
+    </div>
+	
+	<button onclick="screenshot()">Screenshot!</button>
+
+	<div>
+		Text colour: <input id="colour-picker-text" type="text" value="#000000" onchange="updateTextColour(this.value)" data-coloris>
+		</br>
+		Incomplete cell colour: <input id="colour-picker-incomplete" type="text" value="#f0f0f0" onchange="updateDefaultColour(this.value)" data-coloris>
+		</br>
+		In progress cell colour: <input id="colour-picker-inprogress" type="text" value="#eb921e" onchange="updateInProgressColour(this.value)" data-coloris>
+		</br> 		
+		Completed cell colour: <input id="colour-picker-completed"type="text" value="#24d44d" onchange="updateCompletedColour(this.value)" data-coloris>
+	</div>
+	
+</body>
+</html>

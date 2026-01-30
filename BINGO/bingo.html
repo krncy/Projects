@@ -114,6 +114,8 @@
 				
 				setCookie(element.id, "", 365)
 			}
+			
+			document.getElementById("completed-cells-text").innerHTML = document.getElementsByClassName("completed-cell").length;
         }
 		
 		function handleTextClick(element) {
@@ -213,6 +215,9 @@
 				tooltip.innerHTML = cell.getAttribute('rules'); // Renders HTML, including <br>
 				cell.appendChild(tooltip);
 			});
+			
+			document.getElementById("completed-cells-text").innerHTML = document.getElementsByClassName("completed-cell").length;
+			
 		}
 		
 		function readCookies() {
@@ -274,7 +279,6 @@
 				});
 			});
 		}
-	
 	</script>
 	
 </head>
@@ -355,9 +359,10 @@
 		<div id="cell-47" class="grid-cell incomplete-cell rules" rules="1 of the following: <br> Burning Claw <br> Tormented Synapse">Tormented Demon Unique</div>
 	
 	</div>
-	
+	Completed Tiles: <span id="completed-cells-text">0</span>
+	</br>
 	<button onclick="screenshot()">Screenshot!</button>
-
+	</br>
 	<div>
 		Text colour: <input id="colour-picker-text" type="text" value="#000000" onchange="updateTextColour(this.value)" data-coloris>
 		</br>

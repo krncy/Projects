@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cone cunts Bingo</title>
+    <title>Cone cunts Bingo 5</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
 	<script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -21,8 +21,8 @@
 		
 		#grid {
             display: grid;
-            grid-template-columns: repeat(10, 175px); /* 8 columns, each 100px wide */
-            grid-template-rows: repeat(5, 175px); /* 5 rows, each 100px tall */
+            grid-template-columns: repeat(9, 175px); /* 8 columns, each 100px wide */
+            grid-template-rows: repeat(6, 175px); /* 5 rows, each 100px tall */
             gap: 10px; /* 10px border/gap between cells */
             background-color: #f0f0f0; /* Background color for visual contrast */
             padding: 10px; /* Padding around the whole grid */
@@ -114,6 +114,8 @@
 				
 				setCookie(element.id, "", 365)
 			}
+			
+			document.getElementById("completed-cells-text").innerHTML = document.getElementsByClassName("completed-cell").length;
         }
 		
 		function handleTextClick(element) {
@@ -213,6 +215,9 @@
 				tooltip.innerHTML = cell.getAttribute('rules'); // Renders HTML, including <br>
 				cell.appendChild(tooltip);
 			});
+			
+			document.getElementById("completed-cells-text").innerHTML = document.getElementsByClassName("completed-cell").length;
+			
 		}
 		
 		function readCookies() {
@@ -245,7 +250,7 @@
 				completedColour = getCookie("completedColour")
 			}
 			
-			for (var i = 1; i <= 40; i++) {
+			for (var i = 1; i <= 56; i++) {
 				cellID = "cell" + "-" + i
 				x = getCookie(cellID)
 				if (x == "in-progress-cell" || x == "completed-cell") {
@@ -274,83 +279,90 @@
 				});
 			});
 		}
-	
 	</script>
 	
 </head>
 <body onload="load()">
 
 	<div id="content">
-	<div id="title">Cone Cunts Bingo</div>
+	<div id="title">Cone Cunts Bingo 5 </div>
     <!-- Grid container -->
     <div id="grid">
 	
-		<!--10-->
-		<div id="cell-1" class="grid-cell incomplete-cell">Screenshot of your whole team at gemstone crab</div>
-		<div id="cell-2" class="grid-cell incomplete-cell">Sarachnis Cudgel</div>
-		<div id="cell-3" class="grid-cell incomplete-cell">Mask of Ranul</div>
-		<div id="cell-4" class="grid-cell incomplete-cell">Champion Scroll</div>
-		<div id="cell-5" class="grid-cell incomplete-cell rules" rules="No Skotizo</br> No Chaos Elemental</br> No Chompy</br> No AFK alt skilling pets">Pet</div>
-		<div id="cell-6" class="grid-cell incomplete-cell">Pet </br> Chaos Elemental</div>
-		<div id="cell-7" class="grid-cell incomplete-cell">Jar</div>
-		<div id="cell-8" class="grid-cell incomplete-cell">Steel Ring</div>
-		<div id="cell-9" class="grid-cell incomplete-cell">Scurrius Spine</div>
-		<div id="cell-10" class="grid-cell incomplete-cell rules" rules="Each player on your team </br>must do a high gamble"h>Barbarian Assault</div>
-		
-		<!--9-->
-		<div id="cell-11" class="grid-cell incomplete-cell rules" rules="No burnt pages">Wintertodt </br>Unique</div>
-		<div id="cell-12" class="grid-cell incomplete-cell rules" rules="No spirit flakes </br> No soaked pages">Tempoross</br> Unique</div>
-		<div id="cell-13" class="grid-cell incomplete-cell">Zalcano </br>Unique</div>
-		<div id="cell-14" class="grid-cell incomplete-cell rules" rules="Dye </br> Lantern </br> Pet">GOTR </br>Unique</div>
-		<div id="cell-15" class="grid-cell incomplete-cell">GWD </br> Armour Piece</div>
-		<div id="cell-16" class="grid-cell incomplete-cell rules" rules="Hilt is a weapon">GWD </br> Weapon</div>
-		<div id="cell-17" class="grid-cell incomplete-cell rules" rules="3 'ring' drops between team members">DT2 </br> Vestige</div>
-		<div id="cell-18" class="grid-cell incomplete-cell">DT2 </br>Axe Piece</br> or </br> Virtus Piece</div>
-		<div id="cell-19" class="grid-cell incomplete-cell rules" rules="No ring of life">3 Rings from </br> Dagganoth Kings</div>
-		<div id="cell-20" class="grid-cell incomplete-cell">Dragon Pickaxe </br> or </br> Dragon Chainbody</div>
+		<div id="cell-1" class="grid-cell incomplete-cell rules" rules="No Skotizo <br> No Chaos Elemental <br> No Chompy <br> No AFK alt skilling pets <br> No Doom">Pet</div>
+		<div id="cell-2" class="grid-cell incomplete-cell">Jar</div>
+		<div id="cell-3" class="grid-cell incomplete-cell">Champion Scroll</div>
+		<div id="cell-4" class="grid-cell incomplete-cell">Demon slayer <br> quest speedrun <br> gold trophy</div>
+		<div id="cell-5" class="grid-cell incomplete-cell rules" rules="Center of Castlewars Battlefield">Full team screenshot</div>
 	
-		<!--10-->
-		<div id="cell-21" class="grid-cell incomplete-cell rules" rules="Tbow </br> Elder maul </br> Kodai </br> Scythe </br>Shadow">Any raid Mega</div>
-		<div id="cell-22" class="grid-cell incomplete-cell">COX </br> Twisted Kit</div>
-		<div id="cell-23" class="grid-cell incomplete-cell">COX </br> Ancestral Piece</div>
-		<div id="cell-24" class="grid-cell incomplete-cell">COX </br> Arcane Scroll </br> or </br> Dex Scroll</div>
-		<div id="cell-25" class="grid-cell incomplete-cell">TOB </br> Justiciar Piece</div>
-		<div id="cell-26" class="grid-cell incomplete-cell">TOB </br> Avernic Defender</div>
-		<div id="cell-27" class="grid-cell incomplete-cell">TOA </br> Masori Piece</div>
-		<div id="cell-28" class="grid-cell incomplete-cell">TOA </br> Fang </br> or </br> Lightbearer</div>
-		<div id="cell-29" class="grid-cell incomplete-cell">500k Easy Clue</div>
-		<div id="cell-30" class="grid-cell incomplete-cell">Any Boots From Medium Clues</div>
+	
+		<div id="cell-8" class="grid-cell incomplete-cell rules" rules="Can mix and match <br> but need a helmet, body, legs, and weapon">Complete a Barrows/Moons set</div>
+		<div id="cell-9" class="grid-cell incomplete-cell rules" rules="Can mix match <br> need pieces 1,2, and 3">Full Odium/malediction shield</div>
+		<div id="cell-10" class="grid-cell incomplete-cell rules" rules="different boss (not including solo variant) <br> than Voidwaker Piece">Any Wilderness Ring</div>
+		<div id="cell-11" class="grid-cell incomplete-cell rules" rules="different boss (not including solo variant) <br> than Wilderness Ring">Any Voidwaker Piece</div>
+		<div id="cell-12" class="grid-cell incomplete-cell">Dragon pickaxe drop</div>
+		<div id="cell-13" class="grid-cell incomplete-cell">5 LMS Wins</div>
+		<div id="cell-14" class="grid-cell incomplete-cell rules" rules="1 Piece">Elder Chaos </br> Druid robes</div>
+		<div id="cell-46" class="grid-cell incomplete-cell rules" rules="1 Piece">Dagon'Hai </br> robes</div>
+		<div id="cell-15" class="grid-cell incomplete-cell rules" rules="1 of the following: <br> Weapon <br> Amulet <br> Medalion or higher">Revenants</div>
 		
-		<!--10-->
-		<div id="cell-31" class="grid-cell incomplete-cell rules" rules="No Vorkath Head">Vorkath </br> Unique</div>
-		<div id="cell-32" class="grid-cell incomplete-cell rules" rules="No Scales </br> No Teleport">Zulrah </br>Unique</div>
-		<div id="cell-33" class="grid-cell incomplete-cell rules" rules="No Crystal Weapon Seed">Gauntlet </br> Unique</div>
-		<div id="cell-34" class="grid-cell incomplete-cell rules" rules="Venator Shard </br> Muphin">Phantom Muspah</br>Unique</div>
-		<div id="cell-35" class="grid-cell incomplete-cell rules" rules="No Waystone </br> No Demon Tear">Doom of Makhaiotl </br> Unique</div>
-		<div id="cell-36" class="grid-cell incomplete-cell rules" rules="Oathplate Piece </br> Horn">Yama </br> Unique</div>
-		<div id="cell-37" class="grid-cell incomplete-cell rules" rules="No Nihil Shard">Nex </br> Unique</div>
-		<div id="cell-38" class="grid-cell incomplete-cell rules" rules="No Splinters </br> No Quiver">Colosseum </br> Unique</div>
-		<div id="cell-39" class="grid-cell incomplete-cell">Corporeal Beast Unique</div>		
-		<div id="cell-40" class="grid-cell incomplete-cell rules" rules="No Sleepy Tablet">Nightmare </br> Unique</div>
+		
+		
+		
+		<div id="cell-37" class="grid-cell incomplete-cell rules" rules="Complete an easy clue worth at least 424k">Easy Clue</div>
+		<div id="cell-38" class="grid-cell incomplete-cell rules" rules="1 of the following: <br> Ranger <br> Wizard <br> Holy Sandals">Medium Clue Boots</div>
+		
+		<div id="cell-39" class="grid-cell incomplete-cell rules" rules="1 of the following: <br> Dye <br> Pet <br> Lantern">GOTR</div>
+		<div id="cell-40" class="grid-cell incomplete-cell rules" rules="1 of the following: <br> Knife <br> Mask">Vale Totem</div>
+		<div id="cell-41" class="grid-cell incomplete-cell">Tome of <br> Fire or Water</div>
+		<div id="cell-42" class="grid-cell incomplete-cell">Zalcano Unique</div>
+		
+		
 
-		<!--10-->
-		<div id="cell-41" class="grid-cell incomplete-cell">5 x LMS Wins</div>
-		<div id="cell-42" class="grid-cell incomplete-cell">Elder Chaos piece</div>
-		<div id="cell-43" class="grid-cell incomplete-cell">Any Wilderness Ring</div>
-		<div id="cell-44" class="grid-cell incomplete-cell">Any Voidwaker Piece</div>
-		<div id="cell-45" class="grid-cell incomplete-cell rules" rules="Can mix and match </br> but need a helmet, body, legs, and weapon">Complete a Barrows/Moon Set</div>
-		<div id="cell-46" class="grid-cell incomplete-cell">Zenyte </br> Shard</div>
-		<div id="cell-47" class="grid-cell incomplete-cell">Tormented </br> Synapse</div>
-		<div id="cell-48" class="grid-cell incomplete-cell rules" rules="Limbs </br> Lump </br> Visage">Rune Dragon Unique </div>
-		<div id="cell-49" class="grid-cell incomplete-cell rules" rules="Weapon </br> Amulet </br> Ancient Relic </br> Ancient Effigy </br> Ancient Medallion">Revenants</div>
-		<div id="cell-50" class="grid-cell incomplete-cell">Obsidian Armour</div>
-		
+		<div id="cell-50" class="grid-cell incomplete-cell">Pharaohs Sceptre</div>
+		<div id="cell-51" class="grid-cell incomplete-cell">Crystal Grail</div>
 	
-		
+		<div id="cell-48" class="grid-cell incomplete-cell rules" rules="Helmet <br> Platebody <br> Platelegs">Obsidian Armour Piece</div>
+		<div id="cell-53" class="grid-cell incomplete-cell rules" rules="1 of the following: <br> Zombie Axe <br> Zombie Helemt">Armoured Zombie</div>
+		<div id="cell-43" class="grid-cell incomplete-cell rules" rules="1 of the following: <br> Locket <br> Block <br> Knife <br> Compass <br> Coin <br> Sextant <br> Doll <br> Mirror">Sailing Salvage Unique</div>
+		<div id="cell-44" class="grid-cell incomplete-cell rules" rules="Receive a Drop and Stuff it">Stuff a crawling hand</div>
+		<div id="cell-45" class="grid-cell incomplete-cell rules" rules="1 of the following: <br> Golden Tench <br> Big Bass <br> Big Swordfish <br> Big Shark <br> Blue Krill <br> Golden Haddock <br> Orangefin <br> Huge Halibut <br> Purplefin <br> Swift Marlin">Big fish</div>
+
+
+		<div id="cell-35" class="grid-cell incomplete-cell rules" rules="1 of the following: <br> TBow <br> Elder Maul <br> Kodai <br> Scythe <br> Shadow">RAID <br> !MEGA!</div>
+		<div id="cell-36" class="grid-cell incomplete-cell rules" rules="1 of the following: <br> Metamorphic and Sangunine Dust <br> Twisted, Holy, and Sanguine Kits">RAID <br> Transmogs</div>
+		<div id="cell-52" class="grid-cell incomplete-cell">RAID <br> Elite Clue</div>
+		<div id="cell-29" class="grid-cell incomplete-cell">COX <br> Dex or Arcane Scroll</div>
+		<div id="cell-30" class="grid-cell incomplete-cell">COX <br> Ancestral Piece</div>
+		<div id="cell-31" class="grid-cell incomplete-cell">TOB <br> Justiciar Piece</div>
+		<div id="cell-32" class="grid-cell incomplete-cell rules" rules="No Avernic">TOB <br> Weapon</div>
+		<div id="cell-33" class="grid-cell incomplete-cell">TOA <br> Masori Piece</div>
+		<div id="cell-34" class="grid-cell incomplete-cell rules" rules="1 of the following: <br> Shadow <br> Fang">TOA <br> Weapon</div>
+
+		<div id="cell-19" class="grid-cell incomplete-cell rules" rules="1 Drop from: <br> Bandos <br> Armadyl <br> Nex">GWD Armour Piece</div>
+		<div id="cell-20" class="grid-cell incomplete-cell rules" rules="1 Drop <br> All 5 Hilts and Nihil Horn count">GWD Weapon Piece</div>
+		<div id="cell-6" class="grid-cell incomplete-cell">Virtus piece</div>
+		<div id="cell-16" class="grid-cell incomplete-cell rules" rules="Get all the following: <br> Dragon Axe <br> Seercull <br> Mud Battlestaff">Anti LOTR</div>
+		<div id="cell-17" class="grid-cell incomplete-cell rules" rules="No Waystone <br> No Demon tear">Doom Unique</div>
+		<div id="cell-18" class="grid-cell incomplete-cell">Gauntlet Unique</div>
+		<div id="cell-7" class="grid-cell incomplete-cell rules" rules="No quiver <br> No Splinters">Colosseum Unique</div>
+		<div id="cell-21" class="grid-cell incomplete-cell rules" rules="No Pages <br> No Seeds">Huey Unique</div>
+		<div id="cell-22" class="grid-cell incomplete-cell rules" rules="No tablet">Nightmare Unique</div>
+		<div id="cell-23" class="grid-cell incomplete-cell rules" rules="1 of the following: <br> Ancient Icon <br> Venator Shard <br> Muphin">Muspah Unique</div>
+		<div id="cell-24" class="grid-cell incomplete-cell rules" rules="Sarachnis Cudgel">Sarachnis Cudgel</div>
+		<div id="cell-25" class="grid-cell incomplete-cell rules" rules="Any unique <br> or <br> 4 heads total from at least 2 people">Vorkath Unqiues</div>
+		<div id="cell-26" class="grid-cell incomplete-cell rules" rules="1 of the following: <br> Oathplate Armour <br>  Soulflame Horn <br> Yami">Yama Unique</div>
+		<div id="cell-27" class="grid-cell incomplete-cell rules" rules="Any Unique">Demonic Gorrila Unique</div>
+		<div id="cell-28" class="grid-cell incomplete-cell rules" rules="Any unique <br> No scales <br> No teleport">Zulrah Unique</div>
+		<div id="cell-56" class="grid-cell incomplete-cell rules" rules="Any Unique from corp">Corp Unique</div>
+		<div id="cell-55" class="grid-cell incomplete-cell rules" rules="3 Unique drops at least 1/100 droprate<br>Drop must be only dropped by boss (e.g. no hydra tail, occult etc)">Slayer Bossing</div>
+		<div id="cell-47" class="grid-cell incomplete-cell rules" rules="1 of the following: <br> Burning Claw <br> Tormented Synapse">Tormented Demon Unique</div>
+	
 	</div>
-	
+	Completed Tiles: <span id="completed-cells-text">0</span>
+	</br>
 	<button onclick="screenshot()">Screenshot!</button>
-
+	</br>
 	<div>
 		Text colour: <input id="colour-picker-text" type="text" value="#000000" onchange="updateTextColour(this.value)" data-coloris>
 		</br>
